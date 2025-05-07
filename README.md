@@ -2,7 +2,7 @@
 
 ## 📸 Demonstração
 
-![Demonstração do Projeto](img-responsiva.png)
+![Demonstração do Projeto](https://github.com/deV1niborges/projeto-distribuidora-eab/raw/main/img-responsiva.png)
 
 ---
 

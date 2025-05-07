@@ -1,16 +1,8 @@
 @charset "UTF-8";
 
-@media (max-width: 328px) {
+@media screen and (max-width: 328px) {
   header {
     height: 70px;
-  }
-
-  .menu ul {
-    gap: 10px;
-  }
-
-  .menu-open .menu-overlay {
-    width: 150vh !important;
   }
 
   .container {
@@ -89,7 +81,7 @@
   }
 }
 
-@media screen and (max-width: 667px) and (max-height: 375px) {
+@media screen and (max-width: 667px) and (max-height: 468px) {
   .menu ul {
     gap: 10px;
   }

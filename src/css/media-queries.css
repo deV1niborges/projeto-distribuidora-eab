@@ -5,13 +5,12 @@
     height: 70px;
   }
 
-  .menu {
-    width: 100%;
+  .menu ul {
+    gap: 10px;
   }
 
-  .menu-toggle {
-    top: 15px;
-    right: 15px;
+  .menu-open .menu-overlay {
+    width: 150vh !important;
   }
 
   .container {

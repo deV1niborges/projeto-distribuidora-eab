@@ -41,9 +41,16 @@ const initScrollAnimations = () => {
   };
 
   const setupScrollAnimations = () => {
-    if (window.innerWidth <= 768) return;
-
     const animatedElements = document.querySelectorAll(".hidden-on-load");
+
+    // Se for tablet ou celular, revela os elementos imediatamente
+    if (window.innerWidth <= 768) {
+      animatedElements.forEach((el) => {
+        el.classList.add("reveal", "revealed-once");
+      });
+      return null;
+    }
+
     let lastScrollPos = window.pageYOffset;
     let ticking = false;
 
@@ -137,29 +144,26 @@ const initScrollAnimations = () => {
   const init = () => {
     const scrollHandler = setupScrollAnimations();
 
-    if (window.innerWidth > 768 && scrollHandler) {
+    if (scrollHandler) {
       window.addEventListener("scroll", scrollHandler, { passive: true });
     }
 
     window.addEventListener("resize", () => {
-      if (window.innerWidth > 768) {
-        const newScrollHandler = setupScrollAnimations();
+      const newScrollHandler = setupScrollAnimations();
+      if (newScrollHandler) {
         window.addEventListener("scroll", newScrollHandler, { passive: true });
       }
     });
 
     new MutationObserver(() => {
-      if (window.innerWidth > 768) {
-        const newScrollHandler = setupScrollAnimations();
-        newScrollHandler && newScrollHandler();
-      }
+      const newScrollHandler = setupScrollAnimations();
+      newScrollHandler && newScrollHandler();
       initMarquee();
     }).observe(document.body, { childList: true, subtree: true });
 
-    if (window.innerWidth > 768) {
-      const initialScrollHandler = setupScrollAnimations();
-      initialScrollHandler && initialScrollHandler();
-    }
+    const initialScrollHandler = setupScrollAnimations();
+    initialScrollHandler && initialScrollHandler();
+
     initMarquee();
     setupAnchorLinks();
   };
@@ -179,6 +183,7 @@ const initScrollAnimations = () => {
 
 document.addEventListener("DOMContentLoaded", initScrollAnimations);
 
+// Menu mobile
 const menuToggle = document.getElementById("menuToggle");
 const menuOverlay = document.getElementById("menuOverlay");
 const mainMenu = document.getElementById("mainMenu");

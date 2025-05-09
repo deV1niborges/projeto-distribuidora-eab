@@ -1,22 +1,13 @@
 @charset "UTF-8";
 
-@media (max-width: 328px) {
-  header {
-    height: 70px;
-  }
-
-  .menu {
-    width: 100%;
-  }
-
-  .menu-toggle {
-    top: 15px;
-    right: 15px;
+@media screen and (max-height: 350px) {
+  .menu li a {
+    height: 10px;
   }
 }
 
-@media screen and (max-width: 667px) and (max-height: 375px) {
-  .menu ul  {
+@media screen and (max-height: 500px) {
+  .menu ul {
     gap: 10px;
   }
 

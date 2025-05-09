@@ -109,7 +109,7 @@ h1::after {
   bottom: 0;
   width: 100%;
   height: 3px;
-  background-color: red;
+  background-color: var(--cor-2);
 }
 
 .container-h2 {
@@ -142,7 +142,7 @@ h2::after {
   bottom: 0;
   width: 100%;
   height: 3px;
-  background-color: red;
+  background-color: var(--cor-2);
 }
 
 .icon {

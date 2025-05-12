@@ -375,14 +375,18 @@
     margin: 0 20px;
   }
 
+  .whatsapp-float {
+    bottom: 80px;
+  }
+
   .whatsapp-button {
-    background-color: white; 
-    padding: 10px; 
-    width: 46px; 
+    background-color: white;
+    padding: 10px;
+    width: 46px;
     height: 46px;
     align-items: center;
     justify-content: center;
-    border-radius: 50%; 
+    border-radius: 50%;
   }
 
   .whatsapp-text {
@@ -390,13 +394,13 @@
   }
 
   .whatsapp-button img {
-    margin-right: 0; 
+    margin-right: 0;
     width: 26px;
-    height: 26px; 
+    height: 26px;
   }
 
   .footer {
-    padding-bottom: 90px;
+    padding-bottom: 40px;
   }
 
   .company-name {
@@ -469,32 +473,52 @@
 }
 
 @media screen and (max-height: 914px) {
+  .whatsapp-float {
+    bottom: 50px;
+  }
+
   .footer {
     padding-bottom: 40px;
   }
 }
 
 @media screen and (min-height: 1024px) {
+  .whatsapp-float {
+    bottom: 130px;
+  }
+
   .footer {
-    padding-bottom: 170px;
+    padding-bottom: 115px;
   }
 }
 
 @media screen and (min-height: 1180px) {
+  .whatsapp-float {
+    bottom: 300px;
+  }
+
   .footer {
-    padding-bottom: 340px;
+    padding-bottom: 300px;
   }
 }
 
 @media screen and (min-height: 1280px) {
+  .whatsapp-float {
+    bottom: 390px;
+  }
+
   .footer {
-    padding-bottom: 440px;
+    padding-bottom: 380px;
   }
 }
 
 @media screen and (min-height: 1366px) {
+  .whatsapp-float {
+    bottom: 470px;
+  }
+
   .footer {
-    padding-bottom: 540px;
+    padding-bottom: 460px;
   }
 }
 

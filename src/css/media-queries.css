@@ -375,6 +375,26 @@
     margin: 0 20px;
   }
 
+  .whatsapp-button {
+    background-color: white; 
+    padding: 10px; 
+    width: 46px; 
+    height: 46px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%; 
+  }
+
+  .whatsapp-text {
+    display: none;
+  }
+
+  .whatsapp-button img {
+    margin-right: 0; 
+    width: 26px;
+    height: 26px; 
+  }
+
   .footer {
     padding-bottom: 90px;
   }

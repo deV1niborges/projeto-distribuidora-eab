@@ -88,10 +88,6 @@
 }
 
 @media screen and (max-height: 500px) {
-  .menu ul {
-    gap: 10px;
-  }
-
   .menu-open .menu-overlay {
     width: 200vh !important;
   }
@@ -188,6 +184,7 @@
     width: 100%;
     display: flex;
     flex-direction: column;
+    gap: 10px;
   }
 
   .menu li {

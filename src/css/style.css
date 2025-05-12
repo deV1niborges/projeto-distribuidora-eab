@@ -30,6 +30,10 @@ header {
   height: 100px;
 }
 
+.menu-toggle {
+  display: none;
+}
+
 .menu {
   display: flex;
   height: 100%;
@@ -246,7 +250,7 @@ img {
   display: flex;
   justify-content: center;
   width: 500px;
-  background-color: #d7263d;
+  background-color: var(--cor-2);
   border-radius: 30px;
   margin-bottom: 30px;
 }

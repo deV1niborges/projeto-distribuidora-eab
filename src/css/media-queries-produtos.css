@@ -1,8 +1,8 @@
 @charset "UTF-8";
 
-@media screen and (max-height: 350px) {
+@media screen and (max-height: 339px) {
   .menu li a {
-    height: 10px;
+    height: 20px;
   }
 }
 

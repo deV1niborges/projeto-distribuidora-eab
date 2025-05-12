@@ -319,6 +319,48 @@ img {
   }
 }
 
+.whatsapp-float {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+}
+
+.whatsapp-button {
+  display: flex;
+  align-items: center;
+  background-color: var(--cor-3);
+  color: black;
+  text-decoration: none;
+  padding: 10px 16px;
+  border-radius: 40px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
+
+.whatsapp-button img {
+  width: 26px;
+  height: 26px;
+  margin-right: 8px;
+  transition: transform 0.3s ease;
+}
+
+.whatsapp-button:hover {
+  background-color: black;
+  color: var(--cor-3);
+  transform: scale(1.05);
+}
+
+.whatsapp-button:hover img {
+  transform: rotate(10deg) scale(1.1);
+}
+
+.whatsapp-text {
+  font-family: "Poppins";
+  font-weight: 600;
+  font-size: 14px;
+}
+
 .footer {
   background: var(--cor-1);
   color: var(--cor-3);

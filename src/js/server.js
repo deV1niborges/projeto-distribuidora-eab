@@ -5,28 +5,31 @@ const path = require("path");
 
 const PORT = 8000;
 
+// Caminho base do projeto
+const basePath = path.join(__dirname, "../../");
+
 // Configura o LiveReload
 const liveReloadServer = livereload.createServer();
-liveReloadServer.watch(path.join(__dirname, "src"));
+liveReloadServer.watch(path.join(basePath, "src"));
 
 // Middleware para LiveReload
 const app = express();
 app.use(connectLivereload());
 
 // Servir arquivos estáticos
-app.use(express.static(__dirname));
+app.use(express.static(basePath));
 
 // Redireciona URLs amigáveis para os arquivos corretos
 app.get("/produtos", (req, res) => {
-  res.sendFile(path.join(__dirname, "src/pages/produtos.html"));
+  res.sendFile(path.join(basePath, "src/pages/produtos.html"));
 });
 
 app.get("/contato", (req, res) => {
-  res.sendFile(path.join(__dirname, "src/pages/contato.html"));
+  res.sendFile(path.join(basePath, "src/pages/contato.html"));
 });
 
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "index.html"));
+  res.sendFile(path.join(basePath, "index.html"));
 });
 
 // Inicia o servidor

@@ -9,8 +9,11 @@ const PORT = 8000;
 const basePath = path.join(__dirname, "../../");
 
 // Configura o LiveReload
-const liveReloadServer = livereload.createServer();
-liveReloadServer.watch(path.join(basePath, "src"));
+const liveReloadServer = livereload.createServer({
+  exts: ["html", "css", "js"], // Extensões monitoradas
+  delay: 100, // Tempo de espera antes de atualizar
+});
+liveReloadServer.watch(basePath);
 
 // Middleware para LiveReload
 const app = express();

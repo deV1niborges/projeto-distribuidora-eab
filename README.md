@@ -1,4 +1,4 @@
-# 📦 Distribuidora EAB
+# 📦 Distribuidora EAB Ltda
 
 ## 📸 Demonstração
 
@@ -29,7 +29,7 @@ O **Distribuidora EAB** é um site institucional desenvolvido com foco em aprese
 
 Você pode acessar o projeto através do link abaixo:
 
-🔗 [Distribuidora EAB - Site Institucional](https://dev1niborges.github.io/projeto-distribuidora-eab/)
+🔗 [Distribuidora EAB - Site Institucional](https://www.distribdeabltda.com/)
 
 ---
 

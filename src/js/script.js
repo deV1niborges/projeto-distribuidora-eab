@@ -206,35 +206,3 @@ menuLinks.forEach((link) => {
     document.body.style.overflow = "";
   });
 });
-
-// Normaliza URLs de navegação para formato limpo (sem .html ou paths desnecessários)
-document.addEventListener("DOMContentLoaded", function () {
-  // Seleciona todos os links que precisam ser processados
-  const links = document.querySelectorAll(
-    'a[href*=".html"], a[href="index.html"]'
-  );
-
-  links.forEach((link) => {
-    let href = link.getAttribute("href");
-
-    // Processa apenas links que não são âncoras (não começam com #)
-    if (!href.startsWith("#")) {
-      // Remove 'index.html' completamente
-      if (href === "index.html") {
-        link.setAttribute("href", "/");
-      }
-      // Remove '/src/pages/' e '.html' dos outros links
-      else {
-        // Remove '/src/pages/'
-        href = href.replace("src/pages/", "");
-        // Remove '.html'
-        href = href.replace(".html", "");
-        // Garante que comece com '/'
-        if (!href.startsWith("/")) {
-          href = "/" + href;
-        }
-        link.setAttribute("href", href);
-      }
-    }
-  });
-});

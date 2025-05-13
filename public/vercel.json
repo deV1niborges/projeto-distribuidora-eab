@@ -1,7 +1,17 @@
 {
+  "outputDirectory": "public",
   "rewrites": [
-    { "source": "/", "destination": "/index.html" },
-    { "source": "/produtos", "destination": "/produtos.html" },
-    { "source": "/contato", "destination": "/contato.html" }
+    {
+      "source": "/",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/produtos",
+      "destination": "/produtos.html"
+    },
+    {
+      "source": "/contato",
+      "destination": "/contato.html"
+    }
   ]
 }

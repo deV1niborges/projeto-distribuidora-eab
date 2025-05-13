@@ -400,7 +400,7 @@
   }
 
   .footer {
-    padding-bottom: 40px;
+    padding-bottom: 80px;
   }
 
   .company-name {
@@ -478,47 +478,47 @@
   }
 
   .footer {
-    padding-bottom: 40px;
+    padding-bottom: 50px;
   }
 }
 
 @media screen and (min-height: 1024px) {
   .whatsapp-float {
-    bottom: 130px;
+    bottom: 160px;
   }
 
   .footer {
-    padding-bottom: 115px;
+    padding-bottom: 165px;
   }
 }
 
 @media screen and (min-height: 1180px) {
   .whatsapp-float {
-    bottom: 300px;
+    bottom: 320px;
   }
 
   .footer {
-    padding-bottom: 300px;
+    padding-bottom: 320px;
   }
 }
 
 @media screen and (min-height: 1280px) {
   .whatsapp-float {
-    bottom: 390px;
+    bottom: 430px;
   }
 
   .footer {
-    padding-bottom: 380px;
+    padding-bottom: 430px;
   }
 }
 
 @media screen and (min-height: 1366px) {
   .whatsapp-float {
-    bottom: 470px;
+    bottom: 520px;
   }
 
   .footer {
-    padding-bottom: 460px;
+    padding-bottom: 510px;
   }
 }
 

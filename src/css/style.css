@@ -346,8 +346,7 @@ img {
 }
 
 .whatsapp-button:hover {
-  background-color: black;
-  color: var(--cor-3);
+  color: green;
   transform: scale(1.05);
 }
 

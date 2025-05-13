@@ -1,5 +1,0 @@
-{
-  "scripts": {
-    "build": "mkdir public && cp src/pages/*.html public/ && cp index.html public/"
-  }
-}

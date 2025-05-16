@@ -32,7 +32,7 @@
     display: flex;
     align-items: center;
     cursor: pointer;
-    background: rgba(2, 24, 43, 0.8);
+    background: rgb(2, 24, 43);
     padding: 10px 15px;
     border-radius: 30px;
     transition: all var(--transition-speed);

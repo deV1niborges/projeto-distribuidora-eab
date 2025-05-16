@@ -81,70 +81,88 @@ header {
 section {
   background-color: var(--cor-3);
   height: 100vh;
-  padding: 30px;
+  padding-top: 100px;
 }
 
-.center-text-h1 {
-  background-color: var(--cor-1);
-  border-radius: 30px;
+.catalog {
   display: flex;
   justify-content: center;
+  flex-direction: column;
   align-items: center;
-  height: 300px;
-  margin-bottom: 30px;
 }
 
 h1 {
-  position: relative;
-  display: inline-block;
-  color: var(--cor-3);
-  font-size: 30px;
   font-family: "Poppins", sans-serif;
-}
-
-h1::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  height: 3px;
   background-color: var(--cor-2);
-}
-
-.container-h2 {
-  display: flex;
-  justify-content: center;
-}
-
-.center-text-h2 {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100px;
-  background-color: var(--cor-1);
+  font-weight: bold;
+  font-size: clamp(1.4rem, 2vw, 2.4em);
+  color: var(--cor-3);
   border-radius: 20px;
-  width: 400px;
-}
-
-h2 {
-  position: relative;
-  display: inline-block;
-  font-size: 25px;
-  font-family: "Poppins", sans-serif;
-  color: var(--cor-3);
-}
-
-h2::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  height: 3px;
-  background-color: var(--cor-2);
+  padding: 20px;
+  margin-bottom: 20px;
 }
 
 .icon {
-  padding-left: 4px;
+  font-size: clamp(1rem, 2vw);
+}
+
+.description {
+  font-family: "Poppins", sans-serif;
+  max-width: 900px;
+  font-size: clamp(1rem, 2vw, 1.2em);
+  color: black;
+  margin-bottom: 50px;
+  text-align: justify;
+  padding: 20px;
+}
+
+.center-icons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.content-icons {
+  width: 200px;
+  margin: 20px;
+  display: inline-block;
+  padding-top: 20px;
+  border-left: 5px solid var(--cor-2);
+  border-radius: 20px 10px 0px 10px;
+  margin-bottom: 100px;
+}
+
+.content-icons p {
+  font-family: "Poppins", sans-serif;
+  color: black;
+  font-size: clamp(1rem, 2vw, 1.2em);
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.icons-item {
+  display: flex;
+  flex-direction: column;
+  font-size: clamp(1rem, 2vw, 1.2em);
+  align-items: center;
+  color: black;
+}
+
+.slide {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  font-size: 20px;
+
+  & p {
+    font-family: "Noto Sans", sans-serif;
+    color: black;
+    font-size: clamp(1rem, 2vw, 1.2em);
+  }
+
+  & i {
+    color: var(--cor-2);
+    font-size: clamp(1rem, 2vw, 1.2em);
+  }
 }

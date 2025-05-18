@@ -219,17 +219,18 @@
   }
 
   .center-icons {
-    display: flex;
-    justify-content: space-evenly;
     gap: 20px;
     padding-bottom: 40px;
-    padding-top: 20px;
   }
 
   .content-icons {
     margin: 0px;
     padding-top: 40px;
     flex-basis: 300px;
+  }
+
+  .slide {
+    margin-bottom: 270px;
   }
 }
 
@@ -257,24 +258,20 @@
   }
 
   .center-icons {
-    display: flex;
-    justify-content: space-evenly;
     gap: 20px;
-    padding-bottom: 40px;
-    padding-top: 20px;
   }
 
   .content-icons {
-    margin: 0px;
-    padding-top: 40px;
     flex-basis: 200px;
+  }
+
+  .slide {
+    margin-bottom: 240px;
   }
 }
 
 @media screen and (max-height: 667px) {
   .content-icons {
-    margin: 0px;
-    padding-top: 40px;
     flex-basis: 70vw;
   }
 }
@@ -286,17 +283,15 @@
   h1 {
     width: 330px;
   }
+
+  h2 {
+    width: 330px;
+  }
 }
 
 @media screen and (max-height: 914px) {
   .content-icons {
-    margin: 0px;
-    padding-top: 40px;
     flex-basis: 70vw;
-  }
-
-  .slide {
-    padding-bottom: 100px;
   }
 }
 
@@ -306,6 +301,7 @@
     justify-content: space-evenly;
     padding-bottom: 40px;
   }
+
   .content-icons {
     margin: 0px;
     padding-top: 40px;
@@ -314,20 +310,36 @@
 }
 
 @media screen and (min-height: 1180px) {
+  .center-icons {
+    display: flex;
+    justify-content: space-evenly;
+    padding-bottom: 40px;
+  }
+
   .content-icons {
     margin: 0px;
     padding-top: 40px;
     flex-basis: 20vw;
   }
+
+  h2 {
+    margin-bottom: 240px;
+  }
 }
 
 @media screen and (min-height: 1280px) {
+  h2 {
+    margin-bottom: 300px;
+  }
 }
 
 @media screen and (min-width: 1280px) and (max-height: 853px) {
 }
 
-@media screen and (min-width: 1366px) and (max-width: 1399px) {
+@media screen and (min-height: 1366px) {
+  h2 {
+    margin-bottom: 440px;
+  }
 }
 
 @media screen and (min-width: 1400px) {

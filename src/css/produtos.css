@@ -138,7 +138,7 @@ h1 {
 .content-icons {
   border-left: 5px solid var(--cor-2);
   border-bottom: 1px solid rgba(0, 0, 0, 0.103);
-  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.267);
+  border-top: 1px solid rgba(0, 0, 0, 0.103);
   border-radius: 20px 10px 0px 20px;
 }
 

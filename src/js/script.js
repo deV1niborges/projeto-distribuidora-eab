@@ -169,12 +169,14 @@ const initScrollAnimations = () => {
   };
 
   window.addEventListener("load", () => {
+    window.scrollTo({ top: 0, behavior: "auto" }); // Garante reset no mobile
     resetPage();
     init();
   });
 
   window.addEventListener("pageshow", (e) => {
     if (e.persisted) {
+      window.scrollTo({ top: 0, behavior: "auto" }); // Garante reset no mobile
       resetPage();
       init();
     }

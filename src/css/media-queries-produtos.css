@@ -201,7 +201,6 @@
     flex-direction: column;
     align-items: center;
     text-align: center;
-    margin-bottom: 40px;
     font-size: 30px;
   }
 
@@ -216,7 +215,7 @@
   }
 
   .icon {
-    font-size: 32px;
+    font-size: 32px !important;
   }
 
   .description {
@@ -246,11 +245,11 @@
   }
 
   h1 {
-    font-size: 30px;
+    font-size: 33px;
   }
 
   h2 {
-    font-size: 30px;
+    font-size: 25px;
   }
 
   .icon {
@@ -266,7 +265,7 @@
   }
 
   .slide {
-    margin-bottom: 260px;
+    margin-bottom: 280px;
   }
 }
 

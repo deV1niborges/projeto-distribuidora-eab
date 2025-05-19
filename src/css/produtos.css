@@ -93,15 +93,11 @@ section {
 }
 
 h1 {
-  font-family: "Poppins", sans-serif;
-  background-color: var(--cor-2);
-  font-weight: bold;
-  font-size: 32px;
-  color: var(--cor-3) !important;
-  border-radius: 20px;
-  padding: 20px;
-  margin-bottom: 20px !important;
-  text-align: center;
+  padding: 20px 20px;
+  font-family: "Rubik Mono One", sans-serif;
+  font-weight: bolder;
+  font-size: 48px;
+  color: var(--cor-2);
 }
 
 .icon {
@@ -199,12 +195,12 @@ h1 {
 }
 
 h2 {
-  font-family: "Poppins", sans-serif;
+  font-family: "Poppins";
+  font-size: 25px;
+  color: var(--cor-3);
   background-color: var(--cor-2);
-  font-weight: bold;
-  font-size: 32px;
-  color: var(--cor-3) !important;
   border-radius: 20px;
+  font-weight: bold;
   padding: 20px;
   margin-bottom: 20px !important;
   text-align: center;

@@ -263,6 +263,41 @@
     font-size: 1.3rem;
     padding: 0;
   }
+
+  .line {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1),
+      transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .line.animated {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .carousel-item {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1),
+      transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .carousel-item.animated {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .animate-up {
+    opacity: 0 !important;
+    transform: translateY(40px) !important;
+    transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    transition-property: opacity, transform !important;
+    transition-duration: 0.7s !important;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1) !important;
+    will-change: opacity, transform;
+  }
+  .animate-up.animated {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+  }
 }
 
 @media screen and (min-width: 768px) and (max-width: 1024px) {
@@ -436,5 +471,16 @@
   }
   .product-image {
     max-width: 180px;
+  }
+}
+
+@keyframes fadeInUpMobile {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }

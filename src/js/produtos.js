@@ -33,4 +33,25 @@ document.addEventListener("DOMContentLoaded", function () {
   setupCarousel(".carousel-gulao", ".prev-gulao", ".next-gulao");
   setupCarousel(".carousel-apetit", ".prev-apetit", ".next-apetit");
   setupCarousel(".carousel-outros", ".prev-outros", ".next-outros");
+
+  // Animação para títulos das linhas e imagens dos produtos SOMENTE em telas até 767px
+  if (window.innerWidth <= 767) {
+    const lines = document.querySelectorAll(".line");
+    const items = document.querySelectorAll(".carousel-item");
+    const animatedUp = document.querySelectorAll(".animate-up");
+    const observer = new IntersectionObserver(
+      (entries, obs) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("animated");
+            obs.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.3 }
+    );
+    lines.forEach((line) => observer.observe(line));
+    items.forEach((item) => observer.observe(item));
+    animatedUp.forEach((el) => observer.observe(el));
+  }
 });

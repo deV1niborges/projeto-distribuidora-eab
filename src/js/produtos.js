@@ -54,4 +54,25 @@ document.addEventListener("DOMContentLoaded", function () {
     items.forEach((item) => observer.observe(item));
     animatedUp.forEach((el) => observer.observe(el));
   }
+
+  // Animação exclusiva para desktop (mínimo 768px)
+  if (window.innerWidth >= 768) {
+    const linesDesktop = document.querySelectorAll(".line");
+    const itemsDesktop = document.querySelectorAll(".carousel-item");
+    const animatedUpDesktop = document.querySelectorAll(".animate-up-desktop");
+    const observerDesktop = new IntersectionObserver(
+      (entries, obs) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("animated");
+            obs.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.2 }
+    );
+    linesDesktop.forEach((el) => observerDesktop.observe(el));
+    itemsDesktop.forEach((el) => observerDesktop.observe(el));
+    animatedUpDesktop.forEach((el) => observerDesktop.observe(el));
+  }
 });

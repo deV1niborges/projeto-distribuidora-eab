@@ -392,6 +392,10 @@
 }
 
 @media screen and (min-height: 1180px) {
+  section {
+    padding-bottom: 400px;
+  }
+
   .center-icons {
     display: flex;
     justify-content: space-evenly;
@@ -410,6 +414,10 @@
 }
 
 @media screen and (min-height: 1280px) {
+  section {
+    padding-bottom: 500px;
+  }
+
   h2 {
     margin-bottom: 300px;
   }
@@ -419,6 +427,10 @@
 }
 
 @media screen and (min-height: 1366px) {
+  section {
+    padding-bottom: 600px;
+  }
+
   h2 {
     margin-bottom: 440px;
   }

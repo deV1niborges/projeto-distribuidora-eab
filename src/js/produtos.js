@@ -36,6 +36,7 @@ document.addEventListener("DOMContentLoaded", function () {
   setupCarousel(".carousel-apetit", ".prev-apetit", ".next-apetit");
   setupCarousel(".carousel-outros", ".prev-outros", ".next-outros");
   setupCarousel(".carousel-ruppers", ".prev-ruppers", ".next-ruppers");
+  setupCarousel(".carousel-bebidas", ".prev-bebidas", ".next-bebidas");
 
   // Animação para títulos das linhas e imagens dos produtos SOMENTE em telas até 767px
   if (window.innerWidth <= 767) {
@@ -163,6 +164,13 @@ document.addEventListener("DOMContentLoaded", function () {
     ".prev-modal-ruppers",
     ".next-modal-ruppers"
   );
+  const openModalBebidas = setupModalCarouselAmpliado(
+    "modal-bebidas",
+    ".carousel-modal-bebidas",
+    ".carousel-item-modal",
+    ".prev-modal-bebidas",
+    ".next-modal-bebidas"
+  );
 
   // Clique nas imagens dos carrosseis principais para abrir o modal correspondente
   function setupOpenModalOnImage(carouselSelector, openModalFn) {
@@ -172,63 +180,26 @@ document.addEventListener("DOMContentLoaded", function () {
     imgs.forEach((img, idx) => {
       img.style.cursor = "zoom-in";
       img.addEventListener("click", () => openModalFn(idx));
+      // Impede zoom por double tap/double click no modal
+      img.addEventListener("dblclick", function (e) {
+        e.preventDefault();
+        // Passa para a próxima imagem se estiver em um modal
+        const modal = img.closest(".modal-ampliado, .modal-carousel");
+        if (modal && modal.classList.contains("ativo")) {
+          // Tenta acionar o botão de próxima imagem do modal
+          const nextBtn = modal.querySelector(
+            ".next-modal-gulao, .next-modal-apetit, .next-modal-outros, .next-modal-ruppers"
+          );
+          if (nextBtn) nextBtn.click();
+        }
+      });
     });
   }
   setupOpenModalOnImage(".carousel-gulao", openModalGulao);
   setupOpenModalOnImage(".carousel-apetit", openModalApetit);
   setupOpenModalOnImage(".carousel-outros", openModalOutros);
   setupOpenModalOnImage(".carousel-ruppers", openModalRuppers);
-
-  // Adiciona suporte a swipe/touch nos carrosseis ampliados do modal
-  function addSwipeToCarousel(carouselSelector, nextFn, prevFn) {
-    const carousel = document.querySelector(carouselSelector);
-    if (!carousel) return;
-    let startX = 0;
-    let isMoving = false;
-
-    carousel.addEventListener("touchstart", function (e) {
-      if (e.touches.length === 1) {
-        startX = e.touches[0].clientX;
-        isMoving = true;
-      }
-    });
-    carousel.addEventListener("touchmove", function (e) {
-      if (!isMoving) return;
-      const dx = e.touches[0].clientX - startX;
-      if (Math.abs(dx) > 40) {
-        if (dx < 0) {
-          nextFn();
-        } else {
-          prevFn();
-        }
-        isMoving = false;
-      }
-    });
-    carousel.addEventListener("touchend", function () {
-      isMoving = false;
-    });
-  }
-  // Integrar swipe aos modais ampliados
-  addSwipeToCarousel(
-    ".carousel-modal-gulao",
-    () => openModalGulao(currentIndexGulao + 1),
-    () => openModalGulao(currentIndexGulao - 1)
-  );
-  addSwipeToCarousel(
-    ".carousel-modal-apetit",
-    () => openModalApetit(currentIndexApetit + 1),
-    () => openModalApetit(currentIndexApetit - 1)
-  );
-  addSwipeToCarousel(
-    ".carousel-modal-outros",
-    () => openModalOutros(currentIndexOutros + 1),
-    () => openModalOutros(currentIndexOutros - 1)
-  );
-  addSwipeToCarousel(
-    ".carousel-modal-ruppers",
-    () => openModalRuppers(currentIndexRuppers + 1),
-    () => openModalRuppers(currentIndexRuppers - 1)
-  );
+  setupOpenModalOnImage(".carousel-bebidas", openModalBebidas);
 
   // Adiciona suporte a swipe/touch nos carrosseis principais
   function addSwipeToMainCarousel(
@@ -269,67 +240,5 @@ document.addEventListener("DOMContentLoaded", function () {
   addSwipeToMainCarousel(".carousel-apetit", ".next-apetit", ".prev-apetit");
   addSwipeToMainCarousel(".carousel-outros", ".next-outros", ".prev-outros");
   addSwipeToMainCarousel(".carousel-ruppers", ".next-ruppers", ".prev-ruppers");
-
-  // Adiciona suporte a swipe/touch nos carrosseis ampliados dos modais
-  function addSwipeToModalCarousel(carouselSelector, nextFn, prevFn) {
-    const carousel = document.querySelector(carouselSelector);
-    if (!carousel) return;
-    let startX = 0;
-    let isMoving = false;
-
-    carousel.addEventListener("touchstart", function (e) {
-      if (e.touches.length === 1) {
-        startX = e.touches[0].clientX;
-        isMoving = true;
-      }
-    });
-    carousel.addEventListener("touchmove", function (e) {
-      if (!isMoving) return;
-      const dx = e.touches[0].clientX - startX;
-      if (Math.abs(dx) > 40) {
-        if (dx < 0) {
-          nextFn();
-        } else {
-          prevFn();
-        }
-        isMoving = false;
-      }
-    });
-    carousel.addEventListener("touchend", function () {
-      isMoving = false;
-    });
-  }
-  // Funções para navegação dos modais ampliados
-  let currentIndexGulao = 0,
-    currentIndexApetit = 0,
-    currentIndexOutros = 0,
-    currentIndexRuppers = 0;
-  function nextGulao() {
-    openModalGulao(++currentIndexGulao);
-  }
-  function prevGulao() {
-    openModalGulao(--currentIndexGulao);
-  }
-  function nextApetit() {
-    openModalApetit(++currentIndexApetit);
-  }
-  function prevApetit() {
-    openModalApetit(--currentIndexApetit);
-  }
-  function nextOutros() {
-    openModalOutros(++currentIndexOutros);
-  }
-  function prevOutros() {
-    openModalOutros(--currentIndexOutros);
-  }
-  function nextRuppers() {
-    openModalRuppers(++currentIndexRuppers);
-  }
-  function prevRuppers() {
-    openModalRuppers(--currentIndexRuppers);
-  }
-  addSwipeToModalCarousel(".carousel-modal-gulao", nextGulao, prevGulao);
-  addSwipeToModalCarousel(".carousel-modal-apetit", nextApetit, prevApetit);
-  addSwipeToModalCarousel(".carousel-modal-outros", nextOutros, prevOutros);
-  addSwipeToModalCarousel(".carousel-modal-ruppers", nextRuppers, prevRuppers);
+  addSwipeToMainCarousel(".carousel-bebidas", ".next-bebidas", ".prev-bebidas");
 });

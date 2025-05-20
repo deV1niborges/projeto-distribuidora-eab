@@ -191,7 +191,7 @@ h1 {
 
 h2 {
   font-family: "Rubik Mono One", sans-serif;
-  font-size: 32px;
+  font-size: 40px;
   color: var(--cor-2);
   border-radius: 20px;
   font-weight: bold;
@@ -631,12 +631,49 @@ h3 {
   }
 }
 
-.carousel-ruppers .carousel-item img {
-  padding: 18px; /* Espaçamento interno dentro da borda da imagem */
-  background: #fff;
-  border-radius: 14px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-  box-sizing: border-box;
+/* Padronização de altura para todas as imagens dos carrosséis principais */
+.carousel-gulao .carousel-item img,
+.carousel-apetit .carousel-item img,
+.carousel-outros .carousel-item img,
+.carousel-ruppers .carousel-item img,
+.carousel-bebidas .carousel-item img {
+  height: 180px;
+  object-fit: contain;
+  width: auto;
+  max-width: 100%;
+  display: block;
+  margin: 0 auto;
+}
+
+/* Padronização de altura para todas as imagens dos modais ampliados */
+.carousel-modal-gulao .carousel-item-modal img,
+.carousel-modal-apetit .carousel-item-modal img,
+.carousel-modal-outros .carousel-item-modal img,
+.carousel-modal-ruppers .carousel-item-modal img,
+.carousel-modal-bebidas .carousel-item-modal img {
+  height: 320px;
+  object-fit: contain;
+  width: auto;
+  max-width: 100%;
+  display: block;
+  margin: 0 auto;
+}
+
+@media (max-width: 700px) {
+  .carousel-gulao .carousel-item img,
+  .carousel-apetit .carousel-item img,
+  .carousel-outros .carousel-item img,
+  .carousel-ruppers .carousel-item img,
+  .carousel-bebidas .carousel-item img {
+    height: 120px;
+  }
+  .carousel-modal-gulao .carousel-item-modal img,
+  .carousel-modal-apetit .carousel-item-modal img,
+  .carousel-modal-outros .carousel-item-modal img,
+  .carousel-modal-ruppers .carousel-item-modal img,
+  .carousel-modal-bebidas .carousel-item-modal img {
+    height: 180px;
+  }
 }
 
 @keyframes fadeInModal {

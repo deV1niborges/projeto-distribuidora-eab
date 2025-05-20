@@ -225,7 +225,7 @@
 
   .center-icons {
     gap: 20px;
-    padding-bottom: 40px;
+    margin-bottom: 70px;
   }
 
   .content-icons {
@@ -310,7 +310,7 @@
   }
 
   h2 {
-    font-size: 25px;
+    font-size: 33px;
   }
 
   .icon {
@@ -347,6 +347,10 @@
 @media screen and (max-height: 667px) {
   .content-icons {
     flex-basis: 70vw;
+  }
+
+  .slide {
+    margin-bottom: 110px;
   }
 }
 
@@ -413,6 +417,10 @@
   section {
     padding-bottom: 500px;
   }
+
+  .center-icons {
+    margin-bottom: 70px;
+  }
 }
 
 @media screen and (min-width: 1280px) and (max-height: 853px) {
@@ -427,7 +435,7 @@
 @media screen and (min-width: 1400px) {
   .content-icons {
     flex-basis: 40vw;
-    margin-bottom: 30px;
+    margin-bottom: 60px;
   }
 
   .color {

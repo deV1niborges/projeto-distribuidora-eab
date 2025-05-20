@@ -100,10 +100,6 @@ h1 {
   color: var(--cor-2);
 }
 
-.icon {
-  font-size: 30px;
-}
-
 .description {
   width: 100%;
   color: var(--cor-3);
@@ -201,7 +197,7 @@ h2 {
   border-radius: 20px;
   font-weight: bold;
   padding: 20px;
-  margin-bottom: 20px !important;
+  margin-bottom: 20px;
   text-align: center;
 }
 

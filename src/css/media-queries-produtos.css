@@ -407,19 +407,11 @@
     padding-top: 40px;
     flex-basis: 20vw;
   }
-
-  h2 {
-    margin-bottom: 240px;
-  }
 }
 
 @media screen and (min-height: 1280px) {
   section {
     padding-bottom: 500px;
-  }
-
-  h2 {
-    margin-bottom: 300px;
   }
 }
 
@@ -429,10 +421,6 @@
 @media screen and (min-height: 1366px) {
   section {
     padding-bottom: 600px;
-  }
-
-  h2 {
-    margin-bottom: 440px;
   }
 }
 

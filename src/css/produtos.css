@@ -96,7 +96,6 @@ h1 {
   padding: 20px 20px;
   font-family: "Rubik Mono One", sans-serif;
   font-weight: bolder;
-  font-size: 48px;
   color: var(--cor-2);
 }
 
@@ -192,7 +191,6 @@ h1 {
 
 h2 {
   font-family: "Rubik Mono One", sans-serif;
-  font-size: 40px;
   color: var(--cor-2);
   border-radius: 20px;
   font-weight: bold;
@@ -263,6 +261,7 @@ h3 {
   justify-content: center;
   align-items: center;
   transition: transform 0.3s;
+  margin: 0 4px;
 }
 
 .carousel-btn {
@@ -641,7 +640,8 @@ h3 {
 .carousel-apetit .carousel-item img,
 .carousel-outros .carousel-item img,
 .carousel-ruppers .carousel-item img,
-.carousel-bebidas .carousel-item img {
+.carousel-bebidas .carousel-item img,
+.carousel-doces .carousel-item img {
   height: 180px;
   object-fit: contain;
   width: auto;
@@ -655,7 +655,8 @@ h3 {
 .carousel-modal-apetit .carousel-item-modal img,
 .carousel-modal-outros .carousel-item-modal img,
 .carousel-modal-ruppers .carousel-item-modal img,
-.carousel-modal-bebidas .carousel-item-modal img {
+.carousel-modal-bebidas .carousel-item-modal img,
+.carousel-modal-doces .carousel-item-modal img {
   height: 320px;
   object-fit: contain;
   width: auto;
@@ -669,22 +670,23 @@ h3 {
   .carousel-apetit .carousel-item img,
   .carousel-outros .carousel-item img,
   .carousel-ruppers .carousel-item img,
-  .carousel-bebidas .carousel-item img {
+  .carousel-bebidas .carousel-item img,
+  .carousel-doces .carousel-item img {
     height: 120px;
   }
   .carousel-modal-gulao .carousel-item-modal img,
   .carousel-modal-apetit .carousel-item-modal img,
   .carousel-modal-outros .carousel-item-modal img,
   .carousel-modal-ruppers .carousel-item-modal img,
-  .carousel-modal-bebidas .carousel-item-modal img {
+  .carousel-modal-bebidas .carousel-item-modal img,
+  .carousel-modal-doces .carousel-item-modal img {
     height: 180px;
   }
 }
 
-/* Estilos específicos para o carrossel e modal da linha Doces */
+/* Padronização visual do carrossel de Doces */
 .carousel-doces-wrapper .carousel-list,
 .carousel-doces {
-  /* Herda o padrão dos outros carrosseis principais */
   border-radius: 18px;
   box-shadow: 0 2px 16px 0 rgba(0, 0, 0, 0.13);
   background: #fff;
@@ -699,7 +701,7 @@ h3 {
   justify-content: center;
   min-width: 180px;
   max-width: 180px;
-  margin: 0 10px;
+  margin: 0 4px; /* Reduzido de 10px para 4px */
   border-radius: 16px;
   box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.1);
   background: #fff;
@@ -711,91 +713,85 @@ h3 {
   box-shadow: 0 4px 24px 0 rgba(215, 38, 61, 0.18);
 }
 
-.carousel-doces .product-image,
-#modal-doces .product-image-modal {
-  height: 160px !important;
-  min-height: 160px !important;
-  max-height: 160px !important;
-  width: auto;
-  object-fit: contain;
-  border-radius: 12px;
-  background: #fff;
-  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.07);
-  padding: 8px;
-  max-width: 100%;
-  display: block;
-  margin: 0 auto;
-}
-
-@media (max-width: 767px) {
-  .carousel-doces .product-image,
-  #modal-doces .product-image-modal {
-    height: 90px !important;
-    min-height: 90px !important;
-    max-height: 90px !important;
-  }
-  #modal-doces .product-image-modal {
-    height: 120px !important;
-    min-height: 120px !important;
-    max-height: 120px !important;
-  }
-}
-
-/* Modal Doces */
+/* Modal Doces padronizado */
 #modal-doces .modal-content {
-  background: #fff;
-  border-radius: 20px;
-  box-shadow: 0 4px 32px 0 rgba(0, 0, 0, 0.18);
-  padding: 32px 24px 24px 24px;
+  background: transparent;
+  border-radius: 0;
+  box-shadow: none;
+  padding: 0;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
-  min-width: 340px;
-  min-height: 340px;
+  min-width: unset;
+  min-height: unset;
+  max-width: 90vw;
+  max-height: 90vh;
+  flex-direction: row;
 }
 
 #modal-doces .carousel-list-modal {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 16px;
-  min-width: 320px;
-  min-height: 220px;
+  gap: 0;
+  min-width: unset;
+  min-height: unset;
+  width: 40vw;
+  max-width: 320px;
 }
 
 #modal-doces .carousel-item-modal {
+  min-width: 100%;
+  transition: transform 0.4s;
   display: flex;
-  align-items: center;
   justify-content: center;
-  min-width: 220px;
-  max-width: 220px;
-  height: 220px;
-  border-radius: 16px;
-  background: #fff;
-  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.1);
+  align-items: center;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+  max-width: unset;
+  height: unset;
 }
 
 #modal-doces .product-image-modal {
-  height: 300px !important;
-  min-height: 300px !important;
-  max-height: 300px !important;
+  height: 320px;
+  min-height: unset;
+  max-height: 320px;
   width: auto;
   object-fit: contain;
-  border-radius: 12px;
+  border-radius: 10px;
   background: #fff;
-  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.07);
-  padding: 8px;
-  max-width: 100%;
+  box-shadow: 0 0 20px #000a;
+  padding: 0;
+  max-width: 48vw;
   display: block;
   margin: 0 auto;
 }
 
-@media (max-width: 767px) {
+@media (max-width: 700px) {
+  #modal-doces .carousel-list-modal {
+    width: 80vw;
+    min-width: 80vw;
+    max-width: 220px;
+  }
   #modal-doces .product-image-modal {
-    height: 160px !important;
-    min-height: 160px !important;
-    max-height: 160px !important;
+    height: 180px;
+    max-width: 70vw;
+    max-height: 40vh;
+  }
+}
+@media (min-width: 701px) {
+  #modal-doces .carousel-list-modal {
+    width: 60vw;
+    max-width: 600px;
+    min-width: 320px;
+    min-height: 200px;
+    justify-content: center;
+  }
+  #modal-doces .product-image-modal {
+    max-width: 70vw;
+    max-height: 60vh;
   }
 }
 

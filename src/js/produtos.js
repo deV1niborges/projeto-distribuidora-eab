@@ -187,19 +187,12 @@ document.addEventListener("DOMContentLoaded", function () {
     const imgs = Array.from(carousel.querySelectorAll("img"));
     imgs.forEach((img, idx) => {
       img.style.cursor = "zoom-in";
+      img.setAttribute("touch-action", "manipulation"); // Evita zoom em mobile
       img.addEventListener("click", () => openModalFn(idx));
       // Impede zoom por double tap/double click no modal
       img.addEventListener("dblclick", function (e) {
         e.preventDefault();
-        // Passa para a próxima imagem se estiver em um modal
-        const modal = img.closest(".modal-ampliado, .modal-carousel");
-        if (modal && modal.classList.contains("ativo")) {
-          // Tenta acionar o botão de próxima imagem do modal
-          const nextBtn = modal.querySelector(
-            ".next-modal-gulao, .next-modal-apetit, .next-modal-outros, .next-modal-ruppers"
-          );
-          if (nextBtn) nextBtn.click();
-        }
+        return false;
       });
     });
   }

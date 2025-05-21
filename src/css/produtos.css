@@ -199,17 +199,6 @@ h2 {
   text-align: center;
 }
 
-.hidden-on-load {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-}
-
-.hidden-on-load.reveal {
-  opacity: 1;
-  transform: translateY(0);
-}
-
 h3 {
   width: 100%;
   color: var(--cor-3);
@@ -233,316 +222,45 @@ h3 {
   border: 1px solid rgba(0, 0, 0, 0.253);
 }
 
-/* Carrossel base */
-.carousel-wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 40px 0;
-  gap: 10px;
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  justify-items: center;
 }
 
-.space {
-  margin-bottom: 100px;
-}
-
-.carousel-list {
-  display: flex;
-  overflow: hidden;
-  width: 320px;
-  max-width: 90vw;
-  scroll-behavior: smooth;
-}
-
-.carousel-item {
-  min-width: 320px;
-  max-width: 320px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transition: transform 0.3s;
-  margin: 0 4px;
-}
-
-.carousel-btn {
-  background: var(--cor-2) !important; /* Fundo vermelho padrão do site */
-  color: var(--cor-3) !important; /* Setas brancas, igual ao resto do site */
-  border: none;
-  font-size: 2.5rem;
-  cursor: pointer;
-  width: 48px;
-  height: 48px;
-  padding: 0;
-  border-radius: 50%;
-  margin: 0 10px;
-  z-index: 2;
-  transition: background 0.2s, color 0.2s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.carousel-btn:hover {
-  background: var(--cor-1) !important; /* Fundo azul escuro no hover */
-  color: var(--cor-3) !important;
-}
-
-/* Modal carrossel ampliado */
-.modal-carousel {
-  display: none;
-  position: fixed;
-  z-index: 9999;
-  left: 0;
-  top: 0;
-  width: 100vw;
-  height: 100vh;
-  overflow: auto;
-  background: rgba(0, 0, 0, 0.6);
-  align-items: center;
-  justify-content: center;
-  animation: fadeInModal 0.2s;
-  backdrop-filter: blur(2px);
-}
-
-.modal-carousel.active {
-  display: flex;
-}
-
-.modal-carousel-content {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  max-width: 900px;
-  margin: auto;
-  position: relative;
-}
-
-.modal-carousel-list {
-  display: flex;
-  overflow: hidden;
-  width: 80vw;
-  max-width: 700px;
-  min-height: 320px;
-  align-items: center;
-  justify-content: center;
-}
-
-.modal-carousel-item {
-  min-width: 100%;
-  display: none;
-  align-items: center;
-  justify-content: center;
-}
-
-.modal-carousel-item img {
-  max-width: 90vw;
-  max-height: 70vh;
-  border-radius: 18px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+.product-card {
   background: #fff;
-}
-
-.modal-close {
-  position: absolute;
-  top: 30px;
-  right: 40px;
-  color: #fff;
-  font-size: 48px;
-  font-weight: bold;
-  cursor: pointer;
-  z-index: 10001;
-  text-shadow: 0 2px 8px #000;
-  transition: color 0.2s;
-}
-
-.modal-close:hover {
-  color: #ffd700;
-}
-
-.modal-carousel-btn {
-  background: rgba(0, 0, 0, 0.5);
-  color: #fff;
-  border: none;
-  border-radius: 50%;
-  width: 48px;
-  height: 48px;
-  font-size: 2.2rem;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 2px; /* Setas mais próximas do container, igual ao carrossel principal */
-  transition: background 0.2s;
-  z-index: 2;
-}
-
-.modal-carousel-btn:hover {
-  background: #d7263d;
-}
-
-/* MODAL AMPLIADO - Carrossel de imagens ampliadas */
-.modal-ampliado {
-  display: none;
-  position: fixed;
-  z-index: 9999;
-  left: 0;
-  top: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.7);
-  justify-content: center;
-  align-items: center;
-  transition: opacity 0.3s;
-}
-
-.modal-ampliado.ativo {
-  display: flex;
-}
-
-.modal-content {
-  background: transparent;
-  position: relative;
-  max-width: 90vw;
-  max-height: 90vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: row;
-}
-
-.close-modal {
-  position: absolute;
-  top: 10px;
-  right: 20px;
-  font-size: 2.5rem;
-  color: #fff;
-  cursor: pointer;
-  z-index: 10;
-  background: #000 !important; /* Fundo preto para o X em todos os tamanhos */
-  border: none;
-  border-radius: 50%;
-  width: 44px;
-  height: 44px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background 0.2s;
-}
-
-.close-modal:hover {
-  background: #222 !important;
-}
-
-.carousel-list-modal {
-  display: flex;
-  align-items: center;
-  overflow: hidden;
-  width: 40vw;
-  max-width: 320px; /* Container menor para centralizar e afastar das bordas */
-  min-width: 180px;
-  min-height: 200px;
-  justify-content: center;
-}
-
-.carousel-item-modal {
-  min-width: 100%;
-  transition: transform 0.4s;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.carousel-item-modal img {
-  max-width: 48vw; /* Reduzido para dar espaço lateral às setas */
-  max-height: 60vh;
-  border-radius: 10px;
-  box-shadow: 0 0 20px #000a;
-  background: #fff;
-}
-
-.carousel-btn {
-  background: var(--cor-2) !important; /* Fundo vermelho padrão do site */
-  color: var(--cor-3) !important; /* Setas brancas, igual ao resto do site */
-  border: none;
-  font-size: 2.5rem;
-  cursor: pointer;
-  width: 48px;
-  height: 48px;
-  padding: 0;
-  border-radius: 50%;
-  margin: 0 2px; /* Setas mais próximas do container */
-  z-index: 2;
-  transition: background 0.2s, color 0.2s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.carousel-btn:hover {
-  background: var(--cor-1) !important; /* Fundo azul escuro no hover */
-  color: var(--cor-3) !important;
-}
-
-/* Padronização COMPLETA do carrossel principal das linhas para igual ao Doces */
-.carousel-gulao .carousel-list,
-.carousel-apetit .carousel-list,
-.carousel-outros .carousel-list,
-.carousel-ruppers .carousel-list,
-.carousel-bebidas .carousel-list {
   border-radius: 18px;
   box-shadow: 0 2px 16px 0 rgba(0, 0, 0, 0.13);
-  background: #fff;
-  padding: 18px 0;
-  min-height: 220px;
-  align-items: center;
+  padding: 18px 12px 12px 12px;
+  transition: box-shadow 0.2s, transform 0.2s;
+  cursor: pointer;
   display: flex;
-  overflow: hidden;
-  width: 100%;
-  max-width: 90vw;
-  gap: 0;
-}
-
-.carousel-gulao .carousel-item,
-.carousel-apetit .carousel-item,
-.carousel-outros .carousel-item,
-.carousel-ruppers .carousel-item,
-.carousel-bebidas .carousel-item {
-  display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  min-width: 180px;
+  min-width: 140px;
   max-width: 180px;
-  margin: 0 4px;
-  border-radius: 16px;
-  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.1);
-  background: #fff;
-  transition: box-shadow 0.3s;
-  height: 180px;
-  padding: 0;
+  min-height: 180px;
+  border: none;
 }
 
-.carousel-gulao .carousel-item img,
-.carousel-apetit .carousel-item img,
-.carousel-outros .carousel-item img,
-.carousel-ruppers .carousel-item img,
-.carousel-bebidas .carousel-item img {
-  height: 180px;
+.product-card:hover {
+  box-shadow: 0 8px 32px 0 rgba(215, 38, 61, 0.18);
+  transform: translateY(-4px) scale(1.03);
+}
+
+.product-card .product-image {
+  width: 100%;
+  max-width: 140px;
+  max-height: 140px;
   object-fit: contain;
-  width: auto;
-  max-width: 100%;
-  display: block;
-  margin: 0 auto;
-  border-radius: 10px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
   background: #fff;
-  box-shadow: 0 0 20px #0001;
-  transition: box-shadow 0.3s;
+  margin-bottom: 8px;
 }
 
-.carousel-gulao .carousel-item:hover,
-.carousel-apetit .carousel-item:hover,
-.carousel-outros .carousel-item:hover,
-.carousel-ruppers .carousel-item:hover,
-.carousel-bebidas .carousel-item:hover {
-  box-shadow: 0 4px 24px 0 rgba(215, 38, 61, 0.18);
+img {
+  height: 100px;
+  width: 100px;
 }

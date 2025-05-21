@@ -194,6 +194,16 @@ document.addEventListener("DOMContentLoaded", function () {
         e.preventDefault();
         return false;
       });
+      // Impede zoom por múltiplos toques rápidos (mobile)
+      img.addEventListener(
+        "touchstart",
+        function (e) {
+          if (e.touches.length > 1) {
+            e.preventDefault();
+          }
+        },
+        { passive: false }
+      );
     });
   }
   setupOpenModalOnImage(".carousel-gulao", openModalGulao);
@@ -244,4 +254,44 @@ document.addEventListener("DOMContentLoaded", function () {
   addSwipeToMainCarousel(".carousel-ruppers", ".next-ruppers", ".prev-ruppers");
   addSwipeToMainCarousel(".carousel-bebidas", ".next-bebidas", ".prev-bebidas");
   addSwipeToMainCarousel(".carousel-doces", ".next-doces", ".prev-doces");
+
+  // Bloqueio de zoom por duplo clique/toque nas imagens das modais ampliadas
+  function bloquearZoomImagensModal() {
+    const imagensModal = document.querySelectorAll(".product-image-modal");
+    imagensModal.forEach((img) => {
+      img.setAttribute("touch-action", "manipulation");
+      img.addEventListener("dblclick", function (e) {
+        e.preventDefault();
+        return false;
+      });
+      img.addEventListener(
+        "touchstart",
+        function (e) {
+          if (e.touches.length > 1) {
+            e.preventDefault();
+          }
+        },
+        { passive: false }
+      );
+    });
+  }
+
+  // Chama a função ao abrir qualquer modal ampliado
+  [
+    "modal-gulao",
+    "modal-apetit",
+    "modal-outros",
+    "modal-ruppers",
+    "modal-bebidas",
+    "modal-doces",
+  ].forEach(function (modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal) {
+      modal.addEventListener("transitionend", function () {
+        if (modal.classList.contains("ativo")) {
+          bloquearZoomImagensModal();
+        }
+      });
+    }
+  });
 });

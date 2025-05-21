@@ -37,6 +37,7 @@ document.addEventListener("DOMContentLoaded", function () {
   setupCarousel(".carousel-outros", ".prev-outros", ".next-outros");
   setupCarousel(".carousel-ruppers", ".prev-ruppers", ".next-ruppers");
   setupCarousel(".carousel-bebidas", ".prev-bebidas", ".next-bebidas");
+  setupCarousel(".carousel-doces", ".prev-doces", ".next-doces");
 
   // Animação para títulos das linhas e imagens dos produtos SOMENTE em telas até 767px
   if (window.innerWidth <= 767) {
@@ -171,6 +172,13 @@ document.addEventListener("DOMContentLoaded", function () {
     ".prev-modal-bebidas",
     ".next-modal-bebidas"
   );
+  const openModalDoces = setupModalCarouselAmpliado(
+    "modal-doces",
+    ".carousel-modal-doces",
+    ".carousel-item-modal",
+    ".prev-modal-doces",
+    ".next-modal-doces"
+  );
 
   // Clique nas imagens dos carrosseis principais para abrir o modal correspondente
   function setupOpenModalOnImage(carouselSelector, openModalFn) {
@@ -200,6 +208,7 @@ document.addEventListener("DOMContentLoaded", function () {
   setupOpenModalOnImage(".carousel-outros", openModalOutros);
   setupOpenModalOnImage(".carousel-ruppers", openModalRuppers);
   setupOpenModalOnImage(".carousel-bebidas", openModalBebidas);
+  setupOpenModalOnImage(".carousel-doces", openModalDoces);
 
   // Adiciona suporte a swipe/touch nos carrosseis principais
   function addSwipeToMainCarousel(
@@ -241,4 +250,5 @@ document.addEventListener("DOMContentLoaded", function () {
   addSwipeToMainCarousel(".carousel-outros", ".next-outros", ".prev-outros");
   addSwipeToMainCarousel(".carousel-ruppers", ".next-ruppers", ".prev-ruppers");
   addSwipeToMainCarousel(".carousel-bebidas", ".next-bebidas", ".prev-bebidas");
+  addSwipeToMainCarousel(".carousel-doces", ".next-doces", ".prev-doces");
 });

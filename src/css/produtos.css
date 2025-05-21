@@ -126,6 +126,7 @@ h1 {
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
+  margin-bottom: 40px;
 }
 
 .content-icons {
@@ -161,7 +162,7 @@ h1 {
   align-items: center;
   justify-content: center;
   gap: 20px;
-  margin-bottom: 260px;
+  margin-bottom: 220px;
 }
 
 .slide p {
@@ -244,7 +245,7 @@ h3 {
 }
 
 .space {
-  margin-bottom: 300px;
+  margin-bottom: 100px;
 }
 
 .carousel-list {

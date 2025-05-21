@@ -211,56 +211,87 @@ h3 {
   font-family: "Poppins", sans-serif;
 }
 
-.list-products {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  margin-bottom: 30px;
-}
-
 .product-image {
   border: 1px solid rgba(0, 0, 0, 0.253);
 }
 
 .product-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1.5rem;
+  padding: 2rem 1rem;
+  margin-bottom: 3rem;
   justify-items: center;
 }
 
 .product-card {
   background: #fff;
-  border-radius: 18px;
-  box-shadow: 0 2px 16px 0 rgba(0, 0, 0, 0.13);
-  padding: 18px 12px 12px 12px;
-  transition: box-shadow 0.2s, transform 0.2s;
+  border-radius: 1rem;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  min-width: 140px;
+  width: 100%;
   max-width: 180px;
-  min-height: 180px;
-  border: none;
 }
 
 .product-card:hover {
-  box-shadow: 0 8px 32px 0 rgba(215, 38, 61, 0.18);
-  transform: translateY(-4px) scale(1.03);
+  transform: translateY(-6px) scale(1.03);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
 }
 
-.product-card .product-image {
+.product-image {
   width: 100%;
-  max-width: 140px;
-  max-height: 140px;
+  height: auto;
+  display: block;
   object-fit: contain;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
-  background: #fff;
-  margin-bottom: 8px;
+  padding: 1rem;
+  background-color: #f9f9f9;
+  transition: transform 0.3s ease;
 }
 
-img {
-  height: 100px;
-  width: 100px;
+
+.product-card:hover .product-image {
+  transform: scale(1.05);
+}
+
+.image-modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  padding-top: 60px;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.9);
+}
+
+.image-modal img {
+  margin: auto;
+  display: block;
+  max-width: 90%;
+  max-height: 80vh;
+  animation: zoomIn 0.3s ease;
+  border-radius: 1rem;
+}
+
+@keyframes zoomIn {
+  from {
+    transform: scale(0.8);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+.close-modal {
+  position: absolute;
+  top: 30px;
+  right: 45px;
+  color: #fff;
+  font-size: 40px;
+  font-weight: bold;
+  cursor: pointer;
 }

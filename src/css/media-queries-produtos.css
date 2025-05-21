@@ -394,11 +394,11 @@
 
 @media screen and (min-width: 1400px) {
   h1 {
-    font-size: 45px;
+    font-size: 48px;
   }
 
   h2 {
-    font-size: 40px;
+    font-size: 45px;
   }
 
   .content-icons {
@@ -420,5 +420,11 @@
 
   .product-image {
     width: 240px;
+  }
+}
+
+@media (max-width: 480px) {
+  .product-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
 }

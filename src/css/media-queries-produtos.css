@@ -424,6 +424,16 @@
   }
 }
 
+@media screen and (min-height: 1024px) {
+  .whatsapp-float {
+    bottom: 200px;
+  }
+
+  .footer {
+    padding-bottom: 200px;
+  }
+}
+
 @media screen and (min-width: 768px) and (max-height: 1024px) {
   h1 {
     font-size: 35px;

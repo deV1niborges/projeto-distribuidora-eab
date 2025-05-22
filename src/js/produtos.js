@@ -19,3 +19,28 @@ modal.addEventListener("click", (e) => {
     modal.style.display = "none";
   }
 });
+
+// Animação quando os elementos entram na viewport
+document.addEventListener("DOMContentLoaded", function () {
+  const animateElements = document.querySelectorAll(
+    ".animate-desktop, .animate-mobile"
+  );
+
+  function checkIfInView() {
+    animateElements.forEach((element) => {
+      const elementTop = element.getBoundingClientRect().top;
+      const elementBottom = element.getBoundingClientRect().bottom;
+
+      // Verifica se o elemento está na viewport
+      if (elementTop < window.innerHeight && elementBottom > 0) {
+        element.classList.add("animated");
+      }
+    });
+  }
+
+  // Verifica na carga inicial
+  checkIfInView();
+
+  // Verifica durante o scroll
+  window.addEventListener("scroll", checkIfInView);
+});

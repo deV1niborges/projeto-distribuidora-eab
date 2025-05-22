@@ -193,7 +193,7 @@ h1 {
 
 h2 {
   font-family: "Rubik Mono One", sans-serif;
-  color:  rgb(6, 38, 223);
+  color: rgb(6, 38, 223);
   border-radius: 20px;
   font-weight: bold;
   padding: 20px;
@@ -317,7 +317,7 @@ img {
   text-decoration: none;
   padding: 10px 16px;
   border-radius: 40px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  box-shadow: 2px 1px 2px rgba(0, 0, 0, 0.377);
   transition: all 0.3s ease;
 }
 
@@ -338,7 +338,7 @@ img {
 
 .whatsapp-text {
   font-family: "Poppins";
-  font-weight: 600;
+  font-weight: bolder;
   font-size: 14px;
 }
 

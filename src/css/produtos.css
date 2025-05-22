@@ -225,7 +225,7 @@ h3 {
 }
 
 .product-card {
-  background: #fff;
+  background-color: var(--cor-5);
   border-radius: 1rem;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
   overflow: hidden;
@@ -238,6 +238,11 @@ h3 {
 .product-card:hover {
   transform: translateY(-6px) scale(1.03);
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+img {
+  height: 200px !important;
+  width: 170px !important;
 }
 
 .product-image {
@@ -271,8 +276,9 @@ h3 {
 .image-modal img {
   margin: auto;
   display: block;
-  max-width: 90%;
-  max-height: 80vh;
+  object-fit: contain;
+  height: 400px !important;
+  width: 400px !important;
   animation: zoomIn 0.3s ease;
   border-radius: 1rem;
 }

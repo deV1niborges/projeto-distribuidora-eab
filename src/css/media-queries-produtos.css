@@ -14,7 +14,25 @@
 
 @media screen and (max-width: 374px) {
   h1 {
+    font-size: 20px !important;
     width: 300px !important;
+  }
+
+  .description {
+    width: 300px !important;
+    font-size: 14px !important;
+  }
+
+  .company-name {
+    font-size: 12px !important;
+  }
+
+  .copyright {
+    font-size: 12px !important;
+  }
+
+   .product-image {
+    width: 130px !important;
   }
 }
 
@@ -350,7 +368,16 @@
   }
 
   .content-icons {
-    flex-basis: 20vw !important;
+    flex-basis: 70vw !important;
+  }
+
+  .product-image {
+    width: 130px;
+  }
+
+  .image-modal img {
+    height: 200px !important;
+    width: 200px !important;
   }
 }
 

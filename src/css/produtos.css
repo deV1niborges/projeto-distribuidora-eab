@@ -39,6 +39,7 @@ header {
   height: 100%;
   align-items: center;
   padding: 20px;
+  background-color: var(--cor-1);
 }
 
 .menu ul {
@@ -82,7 +83,6 @@ section {
   background-color: var(--cor-3);
   min-height: 100vh;
   padding-top: 80px;
-  padding-bottom: 200px;
 }
 
 .catalog {
@@ -102,6 +102,7 @@ h1 {
 .description {
   width: 100%;
   color: var(--cor-3);
+  font-weight: bolder;
   border-radius: 0px 0px 20px 20px;
   padding: 20px;
   background-color: var(--cor-1);
@@ -167,6 +168,7 @@ h1 {
 .slide p {
   font-family: "Noto Sans", sans-serif;
   color: black;
+  font-weight: bolder;
   font-size: clamp(1.3rem, 2vw, 1.4em);
   text-align: center;
 }
@@ -191,7 +193,7 @@ h1 {
 
 h2 {
   font-family: "Rubik Mono One", sans-serif;
-  color: var(--cor-2);
+  color:  rgb(6, 38, 223);
   border-radius: 20px;
   font-weight: bold;
   padding: 20px;
@@ -204,7 +206,7 @@ h3 {
   color: var(--cor-3);
   border-radius: 0px 0px 20px 20px;
   padding: 20px;
-  background-color: var(--cor-1);
+  background-color: var(--cor-2);
   margin-bottom: 50px;
   text-align: center;
   font-size: clamp(1.1rem, 1vw, 1.4em);
@@ -219,8 +221,7 @@ h3 {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   gap: 1.5rem;
-  padding: 2rem 1rem;
-  margin-bottom: 3rem;
+  padding: 2rem 1rem 5em;
   justify-items: center;
 }
 
@@ -254,7 +255,6 @@ img {
   background-color: #f9f9f9;
   transition: transform 0.3s ease;
 }
-
 
 .product-card:hover .product-image {
   transform: scale(1.05);
@@ -300,4 +300,146 @@ img {
   font-size: 40px;
   font-weight: bold;
   cursor: pointer;
+}
+
+.whatsapp-float {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+}
+
+.whatsapp-button {
+  display: flex;
+  align-items: center;
+  background-color: var(--cor-3);
+  color: black;
+  text-decoration: none;
+  padding: 10px 16px;
+  border-radius: 40px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
+
+.whatsapp-button img {
+  width: 26px !important;
+  height: 26px !important;
+  margin-right: 8px;
+  transition: transform 0.3s ease;
+}
+
+.whatsapp-button:hover {
+  transform: scale(1.05);
+}
+
+.whatsapp-button:hover img {
+  transform: rotate(10deg) scale(1.1);
+}
+
+.whatsapp-text {
+  font-family: "Poppins";
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.footer {
+  background: var(--cor-1);
+  color: var(--cor-3);
+  padding: 50px 20px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.footer::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--cor-6), transparent);
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 25px;
+}
+
+.logo-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  transition: transform var(--transition-speed);
+}
+
+.logo-wrapper:hover {
+  transform: translateY(-3px);
+}
+
+.logo-img {
+  height: 150px;
+  width: auto;
+  filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.2));
+  transition: filter var(--transition-speed);
+}
+
+.logo-img:hover {
+  filter: drop-shadow(0 2px 8px rgba(255, 215, 0, 0.3));
+}
+
+.footer-container .company-name {
+  font-family: "Poppins";
+  font-size: 16px;
+  font-weight: bold;
+  letter-spacing: 2.3px;
+  color: var(--cor-4);
+  position: relative;
+  display: inline-block;
+}
+
+.footer-container .company-name:hover {
+  color: var(--cor-3);
+}
+
+.company-name::after {
+  content: "";
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 2px;
+  background: var(--cor-6);
+  transition: width var(--transition-speed);
+}
+
+.company-name:hover::after {
+  width: 80px;
+}
+
+.copyright {
+  font-size: 14px;
+  letter-spacing: 0.3px;
+  opacity: 0.8;
+  margin-top: 10px;
+  position: relative;
+  padding-top: 20px;
+}
+
+.copyright::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 30px;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.3);
 }

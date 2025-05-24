@@ -394,8 +394,15 @@
     <script>
       const CONFIG = {
         URL_SCRIPT:
-          "https://script.google.com/macros/s/AKfycbx3hvjoEkP7k8YlGifoF5rnDYzAKcO9dQsi2P7_2_SqRrFxbLvKagBspkarBvactGvpWA/exec",
+          "https://script.google.com/macros/s/AKfycbwAX8M5O9qqHX8iqDKN2DGB_4rDVjuWf8o0WKtA-KDzlPcIwW7tn0CcTzaHBcODv_db3g/exec",
         CHAVE_SEGURANCA: "GS2024@FormSecure-7x9kPm2qRv5#wY8zNcL",
+      };
+
+      // Controle de estado global
+      const formController = {
+        isSubmitting: false,
+        currentRequest: null,
+        timeout: null,
       };
 
       // Máscara de telefone
@@ -428,28 +435,34 @@
         this.setSelectionRange(this.value.length, this.value.length);
       });
 
-      // Envio do formulário
+      // Envio do formulário - Versão definitiva
       document
         .getElementById("formContato")
         .addEventListener("submit", function (e) {
           e.preventDefault();
-          if (window.formEnviando) return;
-          window.formEnviando = true;
 
+          // Bloqueia múltiplos envios
+          if (formController.isSubmitting) return;
+          formController.isSubmitting = true;
+
+          // Configura UI
+          const btn = e.target.querySelector("button");
+          const btnOriginal = btn.innerHTML;
+          btn.innerHTML = '<span class="loading-spinner"></span> Enviando...';
+          btn.disabled = true;
+
+          // Limpa erros
           document
             .querySelectorAll(".erro")
             .forEach((el) => (el.style.display = "none"));
 
+          // Validação
           if (!validarFormulario()) {
-            window.formEnviando = false;
+            resetFormState(btn, btnOriginal);
             return;
           }
 
-          const btn = e.target.querySelector("button");
-          const btnOriginal = btn.innerHTML;
-          btn.innerHTML = "Enviando...";
-          btn.disabled = true;
-
+          // Prepara dados
           const dados = {
             nome: document.getElementById("nome").value.trim(),
             email: document.getElementById("email").value.trim(),
@@ -460,54 +473,77 @@
             chave: CONFIG.CHAVE_SEGURANCA,
           };
 
-          const callbackName =
-            "jsonpCallback_" +
-            Date.now() +
-            "_" +
-            Math.floor(Math.random() * 10000);
-
-          const timeoutId = setTimeout(() => {
-            mostrarStatus(
-              "⏱ Tempo de resposta excedido. Verifique sua conexão.",
-              "erro-form"
+          // Configura timeout
+          formController.timeout = setTimeout(() => {
+            handleFormError(
+              "⏱ Tempo excedido. Tente novamente.",
+              btn,
+              btnOriginal
             );
-            btn.disabled = false;
-            btn.innerHTML = btnOriginal;
-            window.formEnviando = false;
-            if (script && script.parentNode)
-              script.parentNode.removeChild(script);
-            delete window[callbackName];
-          }, 10000); // 10 segundos
+          }, 15000); // 15 segundos
 
+          // Cria ID único para a requisição
+          const requestId = "req_" + Date.now();
+          formController.currentRequest = requestId;
+
+          // Configura callback
+          const callbackName = "jsonpCallback_" + requestId;
           window[callbackName] = function (response) {
-            clearTimeout(timeoutId);
-            try {
-              if (response.success) {
-                mostrarStatus("✅ Mensagem enviada com sucesso!", "sucesso");
-                document.getElementById("formContato").reset();
-              } else {
-                mostrarStatus(`❌ Erro: ${response.message}`, "erro-form");
-              }
-            } finally {
-              btn.disabled = false;
-              btn.innerHTML = btnOriginal;
-              window.formEnviando = false;
+            // Verifica se é a requisição atual
+            if (formController.currentRequest !== requestId) return;
 
-              if (script.parentNode) {
-                script.parentNode.removeChild(script);
-              }
-              delete window[callbackName];
+            clearTimeout(formController.timeout);
+            cleanupRequest(callbackName);
+
+            if (response.success) {
+              mostrarStatus("✅ Mensagem enviada!", "sucesso");
+              document.getElementById("formContato").reset();
+            } else {
+              mostrarStatus(`❌ ${response.message}`, "erro-form");
             }
+
+            resetFormState(btn, btnOriginal);
           };
 
+          // Cria e envia script
           const script = document.createElement("script");
           script.src = `${
             CONFIG.URL_SCRIPT
           }?callback=${callbackName}&dados=${encodeURIComponent(
             JSON.stringify(dados)
           )}`;
+          script.onerror = () => {
+            if (formController.currentRequest === requestId) {
+              handleFormError("🔌 Falha na conexão", btn, btnOriginal);
+            }
+          };
+
           document.body.appendChild(script);
         });
+
+      // Funções auxiliares
+      function cleanupRequest(callbackName) {
+        delete window[callbackName];
+        const scripts = document.querySelectorAll(
+          `script[src*="${callbackName}"]`
+        );
+        scripts.forEach((script) => script.remove());
+      }
+
+      function resetFormState(btn, btnOriginal) {
+        clearTimeout(formController.timeout);
+        formController.isSubmitting = false;
+        formController.currentRequest = null;
+        if (btn) {
+          btn.disabled = false;
+          btn.innerHTML = btnOriginal;
+        }
+      }
+
+      function handleFormError(message, btn, btnOriginal) {
+        mostrarStatus(message, "erro-form");
+        resetFormState(btn, btnOriginal);
+      }
 
       function validarFormulario() {
         let valido = true;
@@ -518,7 +554,7 @@
             document.getElementById("nome").value.trim()
           )
         ) {
-          mostrarErro("nome", "Mínimo 3 letras (sem números)");
+          mostrarErro("nome", "Mínimo 3 letras");
           valido = false;
         }
 
@@ -532,7 +568,7 @@
         }
 
         if (tel && !/^(\d{10}|\d{11})$/.test(tel)) {
-          mostrarErro("tel", "Digite DDD + número (10 ou 11 dígitos)");
+          mostrarErro("tel", "DDD + número (10 ou 11 dígitos)");
           valido = false;
         }
 
@@ -562,5 +598,33 @@
         }
       }
     </script>
+
+    <style>
+      .loading-spinner {
+        display: inline-block;
+        width: 1em;
+        height: 1em;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        border-top-color: #fff;
+        animation: spin 1s ease-in-out infinite;
+        margin-right: 0.5em;
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* Melhorias para mobile */
+      button[disabled] {
+        opacity: 0.7;
+      }
+      #mensagem-status {
+        font-size: 0.9rem;
+        padding: 10px;
+        margin: 10px 0;
+      }
+    </style>
   </body>
 </html>

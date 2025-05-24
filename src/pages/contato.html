@@ -190,7 +190,7 @@
         <p>&copy; 2025 Distribuidora EAB. Todos os direitos reservados.</p>
       </div>
     </footer>
-
+    <!-- 
     <script>
       // Configurações
       const CONFIG = {
@@ -391,6 +391,266 @@
           setTimeout(() => (div.style.display = "none"), 5000);
         }
       }
+    </script> -->
+    <script>
+      // Configurações
+      const CONFIG = {
+        URL_SCRIPT:
+          "https://script.google.com/macros/s/AKfycbx3hvjoEkP7k8YlGifoF5rnDYzAKcO9dQsi2P7_2_SqRrFxbLvKagBspkarBvactGvpWA/exec",
+        CHAVE_SEGURANCA: "GS2024@FormSecure-7x9kPm2qRv5#wY8zNcL",
+      };
+
+      // Controle de envio
+      let isSubmitting = false;
+
+      // Máscara de telefone corrigida - Versão Final
+      document.getElementById("tel").addEventListener("input", function (e) {
+        const input = e.target;
+        const cursorPosition = input.selectionStart;
+        const oldValue = input.value;
+        let value = input.value.replace(/\D/g, "");
+
+        // Limita a 11 dígitos
+        if (value.length > 11) {
+          value = value.substring(0, 11);
+        }
+
+        // Aplica formatação
+        let formattedValue = "";
+        if (value.length > 0) {
+          formattedValue = "(" + value.substring(0, 2);
+          if (value.length > 2) {
+            formattedValue += ") " + value.substring(2, 7);
+          }
+          if (value.length > 7) {
+            formattedValue += "-" + value.substring(7, 11);
+          }
+        }
+
+        // Atualiza o valor
+        input.value = formattedValue;
+
+        // Calcula a nova posição do cursor
+        let newCursorPosition;
+
+        // Se está adicionando caracteres
+        if (formattedValue.length > oldValue.length) {
+          if (value.length <= 2) {
+            newCursorPosition = formattedValue.length;
+          } else if (value.length <= 7) {
+            newCursorPosition = value.length + 3; // Ajuste para ") "
+          } else {
+            newCursorPosition = value.length + 4; // Ajuste para ") " e "-"
+          }
+        }
+        // Se está removendo caracteres
+        else {
+          // Mantém a posição relativa
+          newCursorPosition = cursorPosition;
+
+          // Ajustes especiais para quando apagar caracteres especiais
+          if (
+            oldValue[cursorPosition] === ")" ||
+            oldValue[cursorPosition] === "-" ||
+            oldValue[cursorPosition] === " "
+          ) {
+            newCursorPosition = cursorPosition - 1;
+          }
+        }
+
+        // Garante que o cursor fique APÓS o último dígito digitado
+        input.setSelectionRange(newCursorPosition, newCursorPosition);
+      });
+
+      // Bloqueia colagem de conteúdo não formatado
+      document.getElementById("tel").addEventListener("paste", function (e) {
+        e.preventDefault();
+        const pastedText = (e.clipboardData || window.clipboardData).getData(
+          "text"
+        );
+        const numbersOnly = pastedText.replace(/\D/g, "");
+
+        // Simula a digitação dos números
+        this.value = numbersOnly;
+        const event = new Event("input", { bubbles: true });
+        this.dispatchEvent(event);
+
+        // Coloca o cursor no final
+        this.setSelectionRange(this.value.length, this.value.length);
+      });
+
+      // Envio do formulário - VERSÃO CORRIGIDA
+      document
+        .getElementById("formContato")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          // Impede múltiplos envios
+          if (isSubmitting) return;
+          isSubmitting = true;
+
+          // Limpa erros anteriores
+          document
+            .querySelectorAll(".erro")
+            .forEach((el) => (el.style.display = "none"));
+
+          // Validação
+          if (!validarFormulario()) {
+            isSubmitting = false;
+            return;
+          }
+
+          // Mostrar loading
+          const btn = e.target.querySelector("button");
+          const btnOriginal = btn.innerHTML;
+          btn.innerHTML = '<span class="loading-spinner"></span> Enviando...';
+          btn.disabled = true;
+
+          // Prepara dados
+          const dados = {
+            nome: document.getElementById("nome").value.trim(),
+            email: document.getElementById("email").value.trim(),
+            tel:
+              document.getElementById("tel").value.replace(/\D/g, "") || null,
+            tipo: document.getElementById("tipo").value,
+            msg: document.getElementById("msg").value.trim(),
+            chave: CONFIG.CHAVE_SEGURANCA,
+          };
+
+          // Configura timeout para evitar loops
+          const timeoutId = setTimeout(() => {
+            window[callbackName] = null;
+            mostrarStatus("❌ Tempo esgotado. Tente novamente.", "erro-form");
+            btn.disabled = false;
+            btn.innerHTML = btnOriginal;
+            isSubmitting = false;
+          }, 15000); // 15 segundos de timeout
+
+          // Cria um ID único para o callback
+          const callbackName =
+            "jsonpCallback_" +
+            Date.now() +
+            "_" +
+            Math.floor(Math.random() * 1000);
+
+          window[callbackName] = function (response) {
+            clearTimeout(timeoutId);
+            delete window[callbackName];
+
+            // Remove o script criado
+            const scriptElement = document.getElementById(
+              "jsonpScript_" + callbackName
+            );
+            if (scriptElement) scriptElement.remove();
+
+            if (response.success) {
+              mostrarStatus("✅ Mensagem enviada com sucesso!", "sucesso");
+              document.getElementById("formContato").reset();
+            } else {
+              mostrarStatus(`❌ Erro: ${response.message}`, "erro-form");
+            }
+
+            btn.disabled = false;
+            btn.innerHTML = btnOriginal;
+            isSubmitting = false;
+          };
+
+          const script = document.createElement("script");
+          script.src = `${
+            CONFIG.URL_SCRIPT
+          }?callback=${callbackName}&dados=${encodeURIComponent(
+            JSON.stringify(dados)
+          )}`;
+          script.id = "jsonpScript_" + callbackName;
+          script.onerror = function () {
+            clearTimeout(timeoutId);
+            mostrarStatus("❌ Falha na conexão. Tente novamente.", "erro-form");
+            btn.disabled = false;
+            btn.innerHTML = btnOriginal;
+            isSubmitting = false;
+          };
+
+          document.body.appendChild(script);
+        });
+
+      // Funções auxiliares (mantidas iguais)
+      function validarFormulario() {
+        let valido = true;
+        const telValue = document
+          .getElementById("tel")
+          .value.replace(/\D/g, "");
+
+        // Validação do Nome
+        if (
+          !/^[a-zA-ZÀ-ú\s]{3,}$/.test(
+            document.getElementById("nome").value.trim()
+          )
+        ) {
+          mostrarErro("nome", "Mínimo 3 letras (sem números)");
+          valido = false;
+        }
+
+        // Validação do Email
+        if (
+          !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(
+            document.getElementById("email").value.trim()
+          )
+        ) {
+          mostrarErro("email", "E-mail inválido");
+          valido = false;
+        }
+
+        // Validação do Telefone (opcional)
+        if (telValue && !/^(\d{10}|\d{11})$/.test(telValue)) {
+          mostrarErro("tel", "Digite DDD + número (10 ou 11 dígitos)");
+          valido = false;
+        }
+
+        // Validação da Mensagem
+        if (document.getElementById("msg").value.trim().length < 10) {
+          mostrarErro("msg", "Mínimo 10 caracteres");
+          valido = false;
+        }
+
+        return valido;
+      }
+
+      function mostrarErro(campo, mensagem) {
+        const elemento = document.getElementById(`erro-${campo}`);
+        if (elemento) {
+          elemento.textContent = mensagem;
+          elemento.style.display = "block";
+        }
+      }
+
+      function mostrarStatus(mensagem, tipo) {
+        const div = document.getElementById("mensagem-status");
+        if (div) {
+          div.textContent = mensagem;
+          div.className = tipo;
+          div.style.display = "block";
+          setTimeout(() => (div.style.display = "none"), 5000);
+        }
+      }
     </script>
+
+    <style>
+      .loading-spinner {
+        display: inline-block;
+        width: 1em;
+        height: 1em;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        border-top-color: #fff;
+        animation: spin 1s ease-in-out infinite;
+        margin-right: 0.5em;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+    </style>
   </body>
 </html>

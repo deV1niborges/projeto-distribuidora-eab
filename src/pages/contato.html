@@ -381,8 +381,7 @@
 
     <script>
       const CONFIG = {
-        URL_PROXY: "http://localhost:3000/proxy",
-        CHAVE_SEGURANCA: "GS2024@FormSecure-7x9kPm2qRv5#wY8zNcL",
+        URL_PROXY: "https://formulario-proxy.vercel.app/proxy", // Substitua pelo seu URL do proxy
       };
 
       const formController = {
@@ -427,7 +426,6 @@
               document.getElementById("tel").value.replace(/\D/g, "") || null,
             tipo: document.getElementById("tipo").value,
             msg: document.getElementById("msg").value.trim(),
-            chave: CONFIG.CHAVE_SEGURANCA,
           };
 
           try {
@@ -437,6 +435,7 @@
                 "Content-Type": "application/json",
               },
               body: JSON.stringify(dados),
+              signal: AbortSignal.timeout(10000), // Timeout de 10 segundos
             });
 
             const result = await response.json();

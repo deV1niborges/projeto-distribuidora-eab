@@ -153,6 +153,9 @@
   .menu li:nth-child(4) {
     transition-delay: 0.4s;
   }
+  .menu li:nth-child(5) {
+    transition-delay: 0.5s;
+  }
 
   .menu li a {
     display: flex;

@@ -1,6 +1,12 @@
 {
+  "version": 2,
+  "builds": [
+    { "src": "src/pages/**", "use": "@vercel/static" },
+    { "src": "src/js/proxy.js", "use": "@vercel/node" }
+  ],
   "rewrites": [
     { "source": "/produtos", "destination": "/src/pages/produtos.html" },
     { "source": "/contato", "destination": "/src/pages/contato.html" }
-  ]
+  ],
+  "routes": [{ "src": "/proxy", "dest": "/src/js/proxy.js" }]
 }

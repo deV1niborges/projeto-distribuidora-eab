@@ -110,50 +110,37 @@
           />
           <div class="container">
             <form id="formContato">
-              <div class="form-group">
-                <label for="nome">Nome*</label>
-                <input type="text" id="nome" name="nome" required />
-                <span class="erro" id="erro-nome"></span>
+              <div>
+                <label for="nome">Nome:</label>
+                <input type="text" id="nome" required />
+                <div id="erro-nome" class="erro"></div>
               </div>
-
-              <div class="form-group">
-                <label for="email">Email*</label>
-                <input type="email" id="email" name="email" required />
-                <span class="erro" id="erro-email"></span>
+              <div>
+                <label for="email">E-mail:</label>
+                <input type="email" id="email" required />
+                <div id="erro-email" class="erro"></div>
               </div>
-
-              <div class="form-group">
-                <label for="tel">Telefone</label>
-                <input
-                  type="tel"
-                  id="tel"
-                  name="tel"
-                  placeholder="(99) 99999-9999"
-                />
-                <span class="erro" id="erro-tel"></span>
+              <div>
+                <label for="tel">Telefone:</label>
+                <input type="tel" id="tel" />
+                <div id="erro-tel" class="erro"></div>
               </div>
-
-              <div class="form-group">
-                <label for="tipo">Tipo de Solicitação*</label>
-                <select id="tipo" name="tipo" required>
-                  <option value="">Selecione...</option>
-                  <option>Dúvida</option>
-                  <option>Pedido</option>
-                  <option>Outro</option>
+              <div>
+                <label for="tipo">Tipo:</label>
+                <select id="tipo">
+                  <option value="Contato">Contato</option>
+                  <option value="Suporte">Suporte</option>
                 </select>
-                <span class="erro" id="erro-tipo"></span>
               </div>
-
-              <div class="form-group">
-                <label for="msg">Mensagem*</label>
-                <textarea id="msg" name="msg" required></textarea>
-                <span class="erro" id="erro-msg"></span>
+              <div>
+                <label for="msg">Mensagem:</label>
+                <textarea id="msg" required></textarea>
+                <div id="erro-msg" class="erro"></div>
               </div>
-
-              <button class="btn" type="submit">Enviar mensagem</button>
+              <button type="submit">Enviar</button>
+              <div id="sucesso" class="sucesso"></div>
+              <div id="erro-form" class="erro-form"></div>
             </form>
-
-            <div id="mensagem-status"></div>
           </div>
         </div>
       </section>
@@ -391,79 +378,48 @@
         }
       }
     </script> -->
-    
+
     <script>
       const CONFIG = {
-        URL_SCRIPT:
-          "https://script.google.com/macros/s/AKfycbxo0QDT1l4v27Di5kaWJYKEPmlC2ltI8dKjDOsyE81aQzahdaDnmkhlzDnNNZbILK6tOw/exec",
+        URL_PROXY: "http://localhost:3000/proxy",
         CHAVE_SEGURANCA: "GS2024@FormSecure-7x9kPm2qRv5#wY8zNcL",
       };
 
-      // Controle de estado global
       const formController = {
         isSubmitting: false,
-        currentRequest: null,
-        timeout: null,
       };
 
-      // Máscara de telefone
-      document.getElementById("tel").addEventListener("input", function (e) {
-        const input = e.target;
-        let value = input.value.replace(/\D/g, "").substring(0, 11);
-
-        let formatted = "";
-        if (value.length > 0) {
-          formatted = "(" + value.substring(0, 2);
-          if (value.length > 2) {
-            formatted += ") " + value.substring(2, value.length > 6 ? 7 : 6);
-          }
-          if (value.length > 7) {
-            formatted += "-" + value.substring(7);
-          }
-        }
-
-        input.value = formatted;
-      });
-
-      document.getElementById("tel").addEventListener("paste", function (e) {
-        e.preventDefault();
-        const pasted = (e.clipboardData || window.clipboardData).getData(
-          "text"
-        );
-        const clean = pasted.replace(/\D/g, "");
-        this.value = clean;
-        this.dispatchEvent(new Event("input", { bubbles: true }));
-        this.setSelectionRange(this.value.length, this.value.length);
-      });
-
-      // Envio do formulário - Versão definitiva
       document
         .getElementById("formContato")
-        .addEventListener("submit", function (e) {
+        .addEventListener("submit", async function (e) {
           e.preventDefault();
 
-          // Bloqueia múltiplos envios
           if (formController.isSubmitting) return;
           formController.isSubmitting = true;
 
-          // Configura UI
           const btn = e.target.querySelector("button");
           const btnOriginal = btn.innerHTML;
           btn.innerHTML = '<span class="loading-spinner"></span> Enviando...';
           btn.disabled = true;
 
-          // Limpa erros
           document
             .querySelectorAll(".erro")
             .forEach((el) => (el.style.display = "none"));
 
-          // Validação
+          const sucessoEl = document.getElementById("sucesso");
+          const erroFormEl = document.getElementById("erro-form");
+          if (!sucessoEl)
+            console.error("Elemento com ID 'sucesso' não encontrado");
+          if (!erroFormEl)
+            console.error("Elemento com ID 'erro-form' não encontrado");
+          if (sucessoEl) sucessoEl.style.display = "none";
+          if (erroFormEl) erroFormEl.style.display = "none";
+
           if (!validarFormulario()) {
             resetFormState(btn, btnOriginal);
             return;
           }
 
-          // Prepara dados
           const dados = {
             nome: document.getElementById("nome").value.trim(),
             email: document.getElementById("email").value.trim(),
@@ -474,157 +430,123 @@
             chave: CONFIG.CHAVE_SEGURANCA,
           };
 
-          // Configura timeout
-          formController.timeout = setTimeout(() => {
-            handleFormError(
-              "⏱ Tempo excedido. Tente novamente.",
-              btn,
-              btnOriginal
-            );
-          }, 15000); // 15 segundos
+          try {
+            const response = await fetch(CONFIG.URL_PROXY, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(dados),
+            });
 
-          // Cria ID único para a requisição
-          const requestId = "req_" + Date.now();
-          formController.currentRequest = requestId;
-
-          // Configura callback
-          const callbackName = "jsonpCallback_" + requestId;
-          window[callbackName] = function (response) {
-            // Verifica se é a requisição atual
-            if (formController.currentRequest !== requestId) return;
-
-            clearTimeout(formController.timeout);
-            cleanupRequest(callbackName);
-
-            if (response.success) {
+            const result = await response.json();
+            if (result.success) {
               mostrarStatus("✅ Mensagem enviada!", "sucesso");
               document.getElementById("formContato").reset();
             } else {
-              mostrarStatus(`❌ ${response.message}`, "erro-form");
+              mostrarStatus(`❌ ${result.message}`, "erro-form");
             }
-
+          } catch (error) {
+            mostrarStatus("🔌 Erro de conexão. Tente novamente.", "erro-form");
+          } finally {
             resetFormState(btn, btnOriginal);
-          };
-
-          // Cria e envia script
-          const script = document.createElement("script");
-          script.src = `${
-            CONFIG.URL_SCRIPT
-          }?callback=${callbackName}&dados=${encodeURIComponent(
-            JSON.stringify(dados)
-          )}`;
-          script.onerror = () => {
-            if (formController.currentRequest === requestId) {
-              handleFormError("🔌 Falha na conexão", btn, btnOriginal);
-            }
-          };
-
-          document.body.appendChild(script);
+          }
         });
 
-      // Funções auxiliares
-      function cleanupRequest(callbackName) {
-        delete window[callbackName];
-        const scripts = document.querySelectorAll(
-          `script[src*="${callbackName}"]`
-        );
-        scripts.forEach((script) => script.remove());
-      }
-
-      function resetFormState(btn, btnOriginal) {
-        clearTimeout(formController.timeout);
+      function resetFormState(btn, originalHTML) {
+        btn.innerHTML = originalHTML;
+        btn.disabled = false;
         formController.isSubmitting = false;
-        formController.currentRequest = null;
-        if (btn) {
-          btn.disabled = false;
-          btn.innerHTML = btnOriginal;
-        }
       }
 
-      function handleFormError(message, btn, btnOriginal) {
-        mostrarStatus(message, "erro-form");
-        resetFormState(btn, btnOriginal);
+      function mostrarStatus(msg, id) {
+        const el = document.getElementById(id);
+        if (!el) {
+          console.error(`Elemento com ID "${id}" não encontrado no DOM`);
+          return;
+        }
+        el.innerHTML = msg;
+        el.style.display = "block";
+      }
+
+      function mostrarErro(id, msg) {
+        const el = document.getElementById(id);
+        if (!el) {
+          console.error(`Elemento com ID "${id}" não encontrado no DOM`);
+          return;
+        }
+        el.innerHTML = msg;
+        el.style.display = "block";
       }
 
       function validarFormulario() {
-        let valido = true;
-        const tel = document.getElementById("tel").value.replace(/\D/g, "");
+        let valid = true;
 
-        if (
-          !/^[a-zA-ZÀ-ú\s]{3,}$/.test(
-            document.getElementById("nome").value.trim()
-          )
-        ) {
-          mostrarErro("nome", "Mínimo 3 letras");
-          valido = false;
+        const nome = document.getElementById("nome").value.trim();
+        if (!nome) {
+          mostrarErro("erro-nome", "Informe seu nome completo.");
+          valid = false;
         }
 
-        if (
-          !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(
-            document.getElementById("email").value.trim()
-          )
-        ) {
-          mostrarErro("email", "E-mail inválido");
-          valido = false;
+        const email = document.getElementById("email").value.trim();
+        if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+          mostrarErro("erro-email", "Informe um e-mail válido.");
+          valid = false;
         }
 
-        if (tel && !/^(\d{10}|\d{11})$/.test(tel)) {
-          mostrarErro("tel", "DDD + número (10 ou 11 dígitos)");
-          valido = false;
+        const tel = document.getElementById("tel").value.trim();
+        if (tel && tel.replace(/\D/g, "").length < 10) {
+          mostrarErro("erro-tel", "Número de telefone incompleto.");
+          valid = false;
         }
 
-        if (document.getElementById("msg").value.trim().length < 10) {
-          mostrarErro("msg", "Mínimo 10 caracteres");
-          valido = false;
+        const msg = document.getElementById("msg").value.trim();
+        if (!msg) {
+          mostrarErro("erro-msg", "Digite sua mensagem.");
+          valid = false;
         }
 
-        return valido;
-      }
-
-      function mostrarErro(campo, mensagem) {
-        const el = document.getElementById(`erro-${campo}`);
-        if (el) {
-          el.textContent = mensagem;
-          el.style.display = "block";
-        }
-      }
-
-      function mostrarStatus(msg, tipo) {
-        const el = document.getElementById("mensagem-status");
-        if (el) {
-          el.textContent = msg;
-          el.className = tipo;
-          el.style.display = "block";
-          setTimeout(() => (el.style.display = "none"), 5000);
-        }
+        return valid;
       }
     </script>
-
     <style>
-      .loading-spinner {
-        display: inline-block;
-        width: 1em;
-        height: 1em;
-        border: 2px solid rgba(255, 255, 255, 0.3);
-        border-radius: 50%;
-        border-top-color: #fff;
-        animation: spin 1s ease-in-out infinite;
-        margin-right: 0.5em;
+      .erro,
+      .sucesso,
+      .erro-form {
+        display: none;
+        color: red;
       }
-      @keyframes spin {
-        to {
-          transform: rotate(360deg);
-        }
+      .sucesso {
+        color: green;
       }
-
-      /* Melhorias para mobile */
-      button[disabled] {
-        opacity: 0.7;
+      .loading-spinner::before {
+        content: "⏳";
       }
-      #mensagem-status {
-        font-size: 0.9rem;
-        padding: 10px;
-        margin: 10px 0;
+      form {
+        max-width: 500px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+      label {
+        display: block;
+        margin-bottom: 5px;
+      }
+      input,
+      select,
+      textarea {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 10px;
+      }
+      button {
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        cursor: pointer;
+      }
+      button:disabled {
+        background-color: #6c757d;
       }
     </style>
   </body>

@@ -196,6 +196,9 @@ header {
   text-decoration: underline;
 }
 
+.insta {
+  text-decoration: underline !important;
+}
 /* Delay para as animações das cards */
 .animar {
   opacity: 0;

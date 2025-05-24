@@ -394,42 +394,49 @@
     </script> -->
 
     <script>
-      // Configurações atualizadas
+      // Configurações
       const CONFIG = {
         URL_SCRIPT:
           "https://script.google.com/macros/s/AKfycbx3hvjoEkP7k8YlGifoF5rnDYzAKcO9dQsi2P7_2_SqRrFxbLvKagBspkarBvactGvpWA/exec",
         CHAVE_SEGURANCA: "GS2024@FormSecure-7x9kPm2qRv5#wY8zNcL",
-        TIMEOUT: 20000, // 20 segundos
       };
 
-      // Controle de envio
-      let isSubmitting = false;
-      let currentRequestId = null;
+      // Controle de estado do formulário
+      let formState = {
+        isSubmitting: false,
+        currentRequest: null,
+      };
 
-      // Máscara de telefone (mantida da versão anterior)
+      // Máscara de telefone (mantida igual)
       document.getElementById("tel").addEventListener("input", function (e) {
-        // ... (código anterior da máscara de telefone)
+        // ... (código existente da máscara)
       });
 
-      // Nova implementação do envio com Fetch API + fallback
+      // Novo gerenciador de envio
       document
         .getElementById("formContato")
         .addEventListener("submit", async function (e) {
           e.preventDefault();
 
-          if (isSubmitting) return;
-          isSubmitting = true;
-          currentRequestId = Date.now();
-          const requestId = currentRequestId;
+          // Bloqueia múltiplos envios
+          if (formState.isSubmitting) return;
 
-          // Limpa erros e mostra loading
-          document
-            .querySelectorAll(".erro")
-            .forEach((el) => (el.style.display = "none"));
-          const btn = e.target.querySelector("button");
+          // Inicia o processo
+          formState.isSubmitting = true;
+          const requestId = Symbol("requestId");
+          formState.currentRequest = requestId;
+
+          // Configura elementos da UI
+          const form = e.target;
+          const btn = form.querySelector("button");
           const btnOriginal = btn.innerHTML;
           btn.innerHTML = '<span class="loading-spinner"></span> Enviando...';
           btn.disabled = true;
+
+          // Limpa erros anteriores
+          document
+            .querySelectorAll(".erro")
+            .forEach((el) => (el.style.display = "none"));
 
           // Validação
           if (!validarFormulario()) {
@@ -448,38 +455,33 @@
             chave: CONFIG.CHAVE_SEGURANCA,
           };
 
-          // Tenta primeiro com Fetch API
           try {
-            const response = await Promise.race([
-              fetchWithTimeout(CONFIG.URL_SCRIPT, {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/x-www-form-urlencoded",
-                },
-                body: `dados=${encodeURIComponent(JSON.stringify(dados))}`,
-              }),
-              new Promise((_, reject) =>
-                setTimeout(() => reject(new Error("Timeout")), CONFIG.TIMEOUT)
-              ),
-            ]);
+            // Tenta primeiro com Fetch API
+            const response = await fetch(CONFIG.URL_SCRIPT, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+              },
+              body: `dados=${encodeURIComponent(JSON.stringify(dados))}`,
+            });
 
-            if (requestId !== currentRequestId) return;
+            // Verifica se é a requisição atual
+            if (formState.currentRequest !== requestId) return;
 
-            if (!response.ok) throw new Error("Falha na resposta do servidor");
+            if (!response.ok) throw new Error("Falha na resposta");
 
             const result = await response.json();
-            handleResponse(result, btn, btnOriginal);
-          } catch (fetchError) {
-            if (requestId !== currentRequestId) return;
-
-            console.warn("Fetch falhou, tentando JSONP:", fetchError);
+            handleResponse(result, form, btn, btnOriginal);
+          } catch (error) {
             // Fallback para JSONP se Fetch falhar
+            if (formState.currentRequest !== requestId) return;
+
             try {
-              await jsonpFallback(dados, requestId, btn, btnOriginal);
+              await sendWithJsonp(dados, requestId, form, btn, btnOriginal);
             } catch (jsonpError) {
-              if (requestId === currentRequestId) {
+              if (formState.currentRequest === requestId) {
                 mostrarStatus(
-                  "❌ Falha na conexão. Verifique sua rede.",
+                  "❌ Falha ao enviar. Tente novamente.",
                   "erro-form"
                 );
                 resetFormState(btn, btnOriginal);
@@ -488,46 +490,28 @@
           }
         });
 
-      // Função Fetch com timeout
-      async function fetchWithTimeout(url, options) {
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), CONFIG.TIMEOUT);
-
-        try {
-          const response = await fetch(url, {
-            ...options,
-            signal: controller.signal,
-            mode: "no-cors",
-          });
-          clearTimeout(timeoutId);
-          return response;
-        } catch (e) {
-          clearTimeout(timeoutId);
-          throw e;
-        }
-      }
-
-      // Fallback JSONP
-      function jsonpFallback(dados, requestId, btn, btnOriginal) {
+      // Função de envio com JSONP
+      function sendWithJsonp(dados, requestId, form, btn, btnOriginal) {
         return new Promise((resolve, reject) => {
-          const callbackName = `jsonpCallback_${requestId}`;
-          const timeoutId = setTimeout(() => {
-            cleanupJsonp();
-            reject(new Error("JSONP timeout"));
-          }, CONFIG.TIMEOUT);
+          const callbackName = `jsonp_${Date.now()}`;
+          const timeout = setTimeout(() => {
+            cleanup();
+            reject(new Error("Timeout"));
+          }, 15000);
 
-          function cleanupJsonp() {
+          function cleanup() {
             delete window[callbackName];
-            const script = document.getElementById(`jsonpScript_${requestId}`);
-            if (script) script.remove();
-            clearTimeout(timeoutId);
+            const script = document.getElementById(`jsonp_${callbackName}`);
+            if (script) document.body.removeChild(script);
+            clearTimeout(timeout);
           }
 
           window[callbackName] = function (response) {
-            if (requestId !== currentRequestId) return;
-            cleanupJsonp();
-            handleResponse(response, btn, btnOriginal);
-            resolve(response);
+            cleanup();
+            if (formState.currentRequest === requestId) {
+              handleResponse(response, form, btn, btnOriginal);
+              resolve(response);
+            }
           };
 
           const script = document.createElement("script");
@@ -536,65 +520,38 @@
           }?callback=${callbackName}&dados=${encodeURIComponent(
             JSON.stringify(dados)
           )}`;
-          script.id = `jsonpScript_${requestId}`;
+          script.id = `jsonp_${callbackName}`;
           script.onerror = () => {
-            cleanupJsonp();
-            reject(new Error("JSONP script failed to load"));
+            cleanup();
+            reject(new Error("Failed to load script"));
           };
 
           document.body.appendChild(script);
         });
       }
 
-      // Manipulação da resposta
-      function handleResponse(response, btn, btnOriginal) {
+      // Manipulador de resposta
+      function handleResponse(response, form, btn, btnOriginal) {
         if (response.success) {
           mostrarStatus("✅ Mensagem enviada com sucesso!", "sucesso");
-          document.getElementById("formContato").reset();
+          form.reset();
         } else {
           mostrarStatus(`❌ Erro: ${response.message}`, "erro-form");
         }
         resetFormState(btn, btnOriginal);
       }
 
-      // Reset do estado do formulário
+      // Reset do estado
       function resetFormState(btn, btnOriginal) {
-        isSubmitting = false;
+        formState.isSubmitting = false;
+        formState.currentRequest = null;
         if (btn) {
           btn.disabled = false;
           btn.innerHTML = btnOriginal;
         }
       }
 
-      // ... (mantenha as funções validarFormulario, mostrarErro, mostrarStatus existentes)
+      // ... (mantenha as outras funções auxiliares existentes)
     </script>
-
-    <style>
-      .loading-spinner {
-        display: inline-block;
-        width: 1em;
-        height: 1em;
-        border: 2px solid rgba(255, 255, 255, 0.3);
-        border-radius: 50%;
-        border-top-color: #fff;
-        animation: spin 1s ease-in-out infinite;
-        margin-right: 0.5em;
-      }
-      @keyframes spin {
-        to {
-          transform: rotate(360deg);
-        }
-      }
-
-      /* Melhorias para mobile */
-      button[disabled] {
-        opacity: 0.7;
-      }
-      #mensagem-status {
-        font-size: 0.9rem;
-        padding: 10px;
-        margin: 10px 0;
-      }
-    </style>
   </body>
 </html>

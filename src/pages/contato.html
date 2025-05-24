@@ -19,7 +19,7 @@
       href="src/assets/favicons/favicon.ico"
       type="image/x-icon"
     />
-    <!-- ÍCONES PARA ATALHO MOBILE (Android/Chrome) -->
+    <!-- ÍCONES PARA ATALHO MOBILE (Android/IOS/Chrome) -->
     <link
       rel="icon"
       type="image/png"
@@ -37,6 +37,324 @@
       sizes="180x180"
       href="src/assets/favicons/icon-180x180.png"
     />
+    <!-- LINKS CSS -->
+    <link rel="stylesheet" href="src/css/contato.css" />
+    <link rel="stylesheet" href="src/css/media-queries-contato.css" />
   </head>
-  <body></body>
+  <body>
+    <header>
+      <div class="menu-toggle" id="menuToggle">
+        <div class="hamburger">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+        <span class="menu-text">MENU</span>
+      </div>
+
+      <div class="menu-overlay" id="menuOverlay"></div>
+
+      <nav class="menu" id="mainMenu">
+        <ul>
+          <li>
+            <a href="/"
+              ><span class="text">Início</span
+              ><span class="material-icons">home</span></a
+            >
+          </li>
+          <li>
+            <a href="/#sobre"
+              ><span class="text">Sobre</span
+              ><span class="material-icons">info</span></a
+            >
+          </li>
+          <li>
+            <a href="/produtos"
+              ><span class="text">Produtos</span
+              ><span class="material-icons">shopping_bag</span></a
+            >
+          </li>
+          <li>
+            <a href="#"
+              ><span class="text">Contato</span
+              ><span class="material-icons">call</span></a
+            >
+          </li>
+        </ul>
+      </nav>
+    </header>
+    <main>
+      <section>
+        <div class="contact">
+          <h1>Fale com a gente!</h1>
+          <p>Abastecemos seu negócio com alimentos de qualidade superior.</p>
+          <img
+            src="src/assets/img/container/refri-container.webp"
+            class="decoracao bebida"
+            alt="bebida"
+          />
+          <img
+            src="src/assets/img/container/salgadinho-container.webp"
+            class="decoracao salgadinho"
+            alt="salgadinho"
+          />
+          <img
+            src="src/assets/img/container/batatinhas-soltas.webp"
+            class="decoracao batatinhas"
+            alt="salgadinho"
+          />
+          <img
+            src="src/assets/img/alimentos-e-bebidas/nick-cola.webp"
+            class="decoracao refri"
+            alt="salgadinho"
+          />
+          <div class="container">
+            <form id="formContato">
+              <div class="form-group">
+                <label for="nome">Nome*</label>
+                <input type="text" id="nome" name="nome" required />
+                <span class="erro" id="erro-nome"></span>
+              </div>
+
+              <div class="form-group">
+                <label for="email">Email*</label>
+                <input type="email" id="email" name="email" required />
+                <span class="erro" id="erro-email"></span>
+              </div>
+
+              <div class="form-group">
+                <label for="tel">Telefone</label>
+                <input
+                  type="tel"
+                  id="tel"
+                  name="tel"
+                  placeholder="(99) 99999-9999"
+                />
+                <span class="erro" id="erro-tel"></span>
+              </div>
+
+              <div class="form-group">
+                <label for="tipo">Tipo de Solicitação*</label>
+                <select id="tipo" name="tipo" required>
+                  <option value="">Selecione...</option>
+                  <option>Dúvida</option>
+                  <option>Pedido</option>
+                  <option>Outro</option>
+                </select>
+                <span class="erro" id="erro-tipo"></span>
+              </div>
+
+              <div class="form-group">
+                <label for="msg">Mensagem*</label>
+                <textarea id="msg" name="msg" required></textarea>
+                <span class="erro" id="erro-msg"></span>
+              </div>
+
+              <button class="btn" type="submit">Enviar mensagem</button>
+            </form>
+
+            <div id="mensagem-status"></div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer>
+      <div class="footer-content">
+        <div class="footer-col">
+          <h2><i class="fas fa-map-marker-alt"></i> Localização</h2>
+          <p class="footer-text">
+            Rua Antonina Pironga, 400 <br />Bairro Sopa, Diamantina/MG
+          </p>
+        </div>
+        <div class="footer-col">
+          <h2><i class="fas fa-phone-alt"></i> Contato</h2>
+          <p class="footer-text">(38) 99850-0634</p>
+        </div>
+        <div class="footer-col">
+          <h2><i class="fas fa-envelope"></i> Email</h2>
+          <p class="footer-text">distribdltda@gmail.com</p>
+        </div>
+        <div class="footer-col">
+          <h2><i class="fab fa-instagram"></i> Instagram</h2>
+          <p>
+            <a
+              href="https://www.instagram.com/distribuidoraa_eab?igsh=dWgwM3A0YTdxanpj"
+              target="_blank"
+              rel="noopener noreferrer"
+              >@distribuidoraeabltda</a
+            >
+          </p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 Distribuidora EAB. Todos os direitos reservados.</p>
+      </div>
+    </footer>
+
+    <script>
+      // Configurações
+      const CONFIG = {
+        URL_SCRIPT:
+          "https://script.google.com/macros/s/AKfycbx3hvjoEkP7k8YlGifoF5rnDYzAKcO9dQsi2P7_2_SqRrFxbLvKagBspkarBvactGvpWA/exec",
+        CHAVE_SEGURANCA: "GS2024@FormSecure-7x9kPm2qRv5#wY8zNcL",
+      };
+
+      // Máscara de telefone corrigida
+      document.getElementById("tel").addEventListener("input", function (e) {
+        const input = e.target;
+        const cursorPosition = input.selectionStart;
+        let value = input.value.replace(/\D/g, "");
+
+        // Limita a 11 dígitos (DDD + 9 dígitos)
+        if (value.length > 11) {
+          value = value.substring(0, 11);
+        }
+
+        // Aplica formatação
+        let formattedValue = "";
+        if (value.length > 0) {
+          formattedValue = "(" + value.substring(0, 2);
+          if (value.length > 2) {
+            formattedValue += ") " + value.substring(2, 7);
+          }
+          if (value.length > 7) {
+            formattedValue += "-" + value.substring(7, 11);
+          }
+        }
+
+        // Atualiza o valor mantendo a posição do cursor
+        input.value = formattedValue;
+
+        // Ajusta a posição do cursor para após caracteres adicionados
+        if (cursorPosition === 1 && value.length === 3) {
+          input.setSelectionRange(4, 4); // Pula para depois do ") "
+        } else if (cursorPosition === 4 && value.length === 7) {
+          input.setSelectionRange(9, 9); // Pula para depois do "-"
+        } else if (formattedValue.length > e.target.value.length) {
+          // Ajusta para posições onde caracteres foram adicionados
+          input.setSelectionRange(cursorPosition + 1, cursorPosition + 1);
+        } else {
+          // Mantém a posição original
+          input.setSelectionRange(cursorPosition, cursorPosition);
+        }
+      });
+
+      // Envio do formulário
+      document
+        .getElementById("formContato")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          // Limpa erros anteriores
+          document
+            .querySelectorAll(".erro")
+            .forEach((el) => (el.style.display = "none"));
+
+          // Validação
+          if (!validarFormulario()) return;
+
+          // Mostrar loading
+          const btn = e.target.querySelector("button");
+          const btnOriginal = btn.innerHTML;
+          btn.innerHTML = "Enviando...";
+          btn.disabled = true;
+
+          // Prepara dados
+          const dados = {
+            nome: document.getElementById("nome").value.trim(),
+            email: document.getElementById("email").value.trim(),
+            tel:
+              document.getElementById("tel").value.replace(/\D/g, "") || null,
+            tipo: document.getElementById("tipo").value,
+            msg: document.getElementById("msg").value.trim(),
+            chave: CONFIG.CHAVE_SEGURANCA,
+          };
+
+          // Envia via JSONP
+          const callbackName = "jsonpCallback_" + Date.now();
+          window[callbackName] = function (response) {
+            delete window[callbackName];
+            document.body.removeChild(script);
+
+            if (response.success) {
+              mostrarStatus("✅ Mensagem enviada com sucesso!", "sucesso");
+              document.getElementById("formContato").reset();
+            } else {
+              mostrarStatus(`❌ Erro: ${response.message}`, "erro-form");
+            }
+
+            btn.disabled = false;
+            btn.innerHTML = btnOriginal;
+          };
+
+          const script = document.createElement("script");
+          script.src = `${
+            CONFIG.URL_SCRIPT
+          }?callback=${callbackName}&dados=${encodeURIComponent(
+            JSON.stringify(dados)
+          )}`;
+          document.body.appendChild(script);
+        });
+
+      // Funções auxiliares
+      function validarFormulario() {
+        let valido = true;
+        const telValue = document
+          .getElementById("tel")
+          .value.replace(/\D/g, "");
+
+        // Validação do Nome
+        if (
+          !/^[a-zA-ZÀ-ú\s]{3,}$/.test(
+            document.getElementById("nome").value.trim()
+          )
+        ) {
+          mostrarErro("nome", "Mínimo 3 letras (sem números)");
+          valido = false;
+        }
+
+        // Validação do Email
+        if (
+          !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(
+            document.getElementById("email").value.trim()
+          )
+        ) {
+          mostrarErro("email", "E-mail inválido");
+          valido = false;
+        }
+
+        // Validação do Telefone (opcional)
+        if (telValue && !/^(\d{10}|\d{11})$/.test(telValue)) {
+          mostrarErro("tel", "Digite DDD + número (10 ou 11 dígitos)");
+          valido = false;
+        }
+
+        // Validação da Mensagem
+        if (document.getElementById("msg").value.trim().length < 10) {
+          mostrarErro("msg", "Mínimo 10 caracteres");
+          valido = false;
+        }
+
+        return valido;
+      }
+
+      function mostrarErro(campo, mensagem) {
+        const elemento = document.getElementById(`erro-${campo}`);
+        if (elemento) {
+          elemento.textContent = mensagem;
+          elemento.style.display = "block";
+        }
+      }
+
+      function mostrarStatus(mensagem, tipo) {
+        const div = document.getElementById("mensagem-status");
+        if (div) {
+          div.textContent = mensagem;
+          div.className = tipo;
+          div.style.display = "block";
+          setTimeout(() => (div.style.display = "none"), 5000);
+        }
+      }
+    </script>
+  </body>
 </html>

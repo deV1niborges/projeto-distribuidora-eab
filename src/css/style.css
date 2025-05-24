@@ -224,11 +224,6 @@ strong {
   color: var(--cor-2);
 }
 
-img {
-  align-self: center;
-  height: 150px;
-}
-
 .hidden-on-load {
   opacity: 0;
   transform: translateY(20px);

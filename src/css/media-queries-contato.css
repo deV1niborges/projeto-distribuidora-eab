@@ -1,0 +1,39 @@
+@charset "UTF-8";
+
+@media screen and (max-width: 767px) {
+  .decoracao {
+    display: none;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  /* BEBIDA */
+  .bebida {
+    top: 14%;
+    left: 87%;
+    transform: rotate(45deg);
+  }
+
+  /* REFRI */
+  .refri {
+    top: 14%;
+    right: 87%;
+    transform: rotate(-45deg);
+  }
+
+  /* SALGADINHO */
+  .salgadinho {
+    bottom: -1%;
+    right: 4%;
+    width: 10vw;
+    max-width: 150px;
+    transform: rotate(35deg);
+  }
+
+  /* BATATINHAS */
+  .batatinhas {
+    bottom: 1%;
+    left: 4%;
+    transform: rotate(-40deg);
+  }
+}

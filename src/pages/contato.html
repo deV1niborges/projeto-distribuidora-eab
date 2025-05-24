@@ -401,33 +401,30 @@
       // Máscara de telefone
       document.getElementById("tel").addEventListener("input", function (e) {
         const input = e.target;
-        const oldValue = input.value;
-        let value = input.value.replace(/\D/g, "");
-        if (value.length > 11) value = value.substring(0, 11);
+        let value = input.value.replace(/\D/g, "").substring(0, 11);
 
-        let formattedValue = "";
+        let formatted = "";
         if (value.length > 0) {
-          formattedValue = "(" + value.substring(0, 2);
+          formatted = "(" + value.substring(0, 2);
           if (value.length > 2) {
-            formattedValue += ") " + value.substring(2, 7);
+            formatted += ") " + value.substring(2, value.length > 6 ? 7 : 6);
           }
           if (value.length > 7) {
-            formattedValue += "-" + value.substring(7, 11);
+            formatted += "-" + value.substring(7);
           }
         }
 
-        input.value = formattedValue;
+        input.value = formatted;
       });
 
       document.getElementById("tel").addEventListener("paste", function (e) {
         e.preventDefault();
-        const pastedText = (e.clipboardData || window.clipboardData).getData(
+        const pasted = (e.clipboardData || window.clipboardData).getData(
           "text"
         );
-        const numbersOnly = pastedText.replace(/\D/g, "");
-        this.value = numbersOnly;
-        const event = new Event("input", { bubbles: true });
-        this.dispatchEvent(event);
+        const clean = pasted.replace(/\D/g, "");
+        this.value = clean;
+        this.dispatchEvent(new Event("input", { bubbles: true }));
         this.setSelectionRange(this.value.length, this.value.length);
       });
 
@@ -436,17 +433,13 @@
         .getElementById("formContato")
         .addEventListener("submit", function (e) {
           e.preventDefault();
-
-          // Evita múltiplos envios
           if (window.formEnviando) return;
           window.formEnviando = true;
 
-          // Limpa mensagens anteriores
           document
             .querySelectorAll(".erro")
             .forEach((el) => (el.style.display = "none"));
 
-          // Validação
           if (!validarFormulario()) {
             window.formEnviando = false;
             return;
@@ -472,7 +465,22 @@
             Date.now() +
             "_" +
             Math.floor(Math.random() * 10000);
+
+          const timeoutId = setTimeout(() => {
+            mostrarStatus(
+              "⏱ Tempo de resposta excedido. Verifique sua conexão.",
+              "erro-form"
+            );
+            btn.disabled = false;
+            btn.innerHTML = btnOriginal;
+            window.formEnviando = false;
+            if (script && script.parentNode)
+              script.parentNode.removeChild(script);
+            delete window[callbackName];
+          }, 10000); // 10 segundos
+
           window[callbackName] = function (response) {
+            clearTimeout(timeoutId);
             try {
               if (response.success) {
                 mostrarStatus("✅ Mensagem enviada com sucesso!", "sucesso");
@@ -503,9 +511,7 @@
 
       function validarFormulario() {
         let valido = true;
-        const telValue = document
-          .getElementById("tel")
-          .value.replace(/\D/g, "");
+        const tel = document.getElementById("tel").value.replace(/\D/g, "");
 
         if (
           !/^[a-zA-ZÀ-ú\s]{3,}$/.test(
@@ -525,7 +531,7 @@
           valido = false;
         }
 
-        if (telValue && !/^(\d{10}|\d{11})$/.test(telValue)) {
+        if (tel && !/^(\d{10}|\d{11})$/.test(tel)) {
           mostrarErro("tel", "Digite DDD + número (10 ou 11 dígitos)");
           valido = false;
         }
@@ -539,20 +545,20 @@
       }
 
       function mostrarErro(campo, mensagem) {
-        const elemento = document.getElementById(`erro-${campo}`);
-        if (elemento) {
-          elemento.textContent = mensagem;
-          elemento.style.display = "block";
+        const el = document.getElementById(`erro-${campo}`);
+        if (el) {
+          el.textContent = mensagem;
+          el.style.display = "block";
         }
       }
 
-      function mostrarStatus(mensagem, tipo) {
-        const div = document.getElementById("mensagem-status");
-        if (div) {
-          div.textContent = mensagem;
-          div.className = tipo;
-          div.style.display = "block";
-          setTimeout(() => (div.style.display = "none"), 5000);
+      function mostrarStatus(msg, tipo) {
+        const el = document.getElementById("mensagem-status");
+        if (el) {
+          el.textContent = msg;
+          el.className = tipo;
+          el.style.display = "block";
+          setTimeout(() => (el.style.display = "none"), 5000);
         }
       }
     </script>
